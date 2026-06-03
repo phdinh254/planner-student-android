@@ -3,19 +3,19 @@ plugins {
 }
 
 android {
-    namespace 'com.example.personalplanner'
-    compileSdk 35
+    namespace = 'com.example.personalplanner'
+    compileSdk = 35
 
     defaultConfig {
         applicationId 'com.example.personalplanner'
-        minSdk 23
-        targetSdk 35
+        minSdk = 23
+        targetSdk = 35
         versionCode 1
         versionName '1.0'
     }
 
     buildFeatures {
-        viewBinding false
+        viewBinding = false
     }
 
     compileOptions {

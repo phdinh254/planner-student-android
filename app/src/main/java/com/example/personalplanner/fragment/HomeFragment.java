@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.fragment.app.Fragment;
 
 import com.example.personalplanner.R;
@@ -75,8 +76,9 @@ public class HomeFragment extends Fragment {
                 }
             }
 
-            int total = tasks.size();
-            int pending = total - completed;
+            final int total = tasks.size();
+            final int completedTasks = completed;
+            final int pending = total - completedTasks;
 
             mainHandler.post(() -> {
                 if (!isAdded()) {
@@ -84,7 +86,7 @@ public class HomeFragment extends Fragment {
                 }
 
                 txtTotalTasks.setText("Tổng kế hoạch: " + total);
-                txtCompletedTasks.setText("Đã hoàn thành: " + completed);
+                txtCompletedTasks.setText("Đã hoàn thành: " + completedTasks);
                 txtPendingTasks.setText("Chưa hoàn thành: " + pending);
             });
         });
