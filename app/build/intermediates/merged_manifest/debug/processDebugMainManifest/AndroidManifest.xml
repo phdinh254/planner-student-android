@@ -19,6 +19,7 @@
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
         android:extractNativeLibs="false"
+        android:icon="@drawable/ic_app_logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.PersonalPlanner" >
@@ -36,9 +37,6 @@
             android:exported="false" />
         <activity
             android:name="com.example.personalplanner.activity.LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.example.personalplanner.activity.SplashActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

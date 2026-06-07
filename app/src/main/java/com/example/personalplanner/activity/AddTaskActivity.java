@@ -3,8 +3,6 @@ package com.example.personalplanner.activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -23,60 +21,39 @@ import java.util.concurrent.Executors;
 
 public class AddTaskActivity extends AppCompatActivity {
 
-    private EditText edtTitle, edtDescription;
-    private Button btnChooseDate, btnChooseTime, btnSaveTask, btnCancel;
-
+    private EditText edtTitle;
+    private EditText edtDescription;
+    private Button btnChooseDate;
+    private Button btnChooseTime;
+    private Button btnSaveTask;
     private DatabaseHelper databaseHelper;
     private SessionManager sessionManager;
 
-    private String selectedDate = "";
-    private String selectedTime = "";
-
     private final Calendar calendar = Calendar.getInstance();
-
-    private final SimpleDateFormat dateFormat =
-            new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-
-    private final SimpleDateFormat timeFormat =
-            new SimpleDateFormat("HH:mm", Locale.getDefault());
-
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+    private final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.US);
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
-    private final Handler mainHandler = new Handler(Looper.getMainLooper());
+    private String selectedDate;
+    private String selectedTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
-        initViews();
-        initObjects();
-        setDefaultDateTime();
-        handleEvents();
-    }
-
-    private void initViews() {
         edtTitle = findViewById(R.id.edtTitle);
         edtDescription = findViewById(R.id.edtDescription);
         btnChooseDate = findViewById(R.id.btnChooseDate);
         btnChooseTime = findViewById(R.id.btnChooseTime);
         btnSaveTask = findViewById(R.id.btnSaveTask);
-        btnCancel = findViewById(R.id.btnCancel);
-    }
-
-    private void initObjects() {
+        Button btnCancel = findViewById(R.id.btnCancel);
         databaseHelper = new DatabaseHelper(this);
         sessionManager = new SessionManager(this);
-    }
 
-    private void setDefaultDateTime() {
         selectedDate = dateFormat.format(calendar.getTime());
         selectedTime = timeFormat.format(calendar.getTime());
+        updateDateTimeLabels();
 
-        btnChooseDate.setText("Ngày: " + selectedDate);
-        btnChooseTime.setText("Giờ: " + selectedTime);
-    }
-
-    private void handleEvents() {
         btnChooseDate.setOnClickListener(v -> showDatePicker());
         btnChooseTime.setOnClickListener(v -> showTimePicker());
         btnSaveTask.setOnClickListener(v -> saveTask());
@@ -84,92 +61,88 @@ public class AddTaskActivity extends AppCompatActivity {
     }
 
     private void showDatePicker() {
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
+        new DatePickerDialog(
                 this,
-                (view, selectedYear, selectedMonth, selectedDay) -> {
-                    calendar.set(Calendar.YEAR, selectedYear);
-                    calendar.set(Calendar.MONTH, selectedMonth);
-                    calendar.set(Calendar.DAY_OF_MONTH, selectedDay);
-
+                (view, year, month, day) -> {
+                    calendar.set(year, month, day);
                     selectedDate = dateFormat.format(calendar.getTime());
-                    btnChooseDate.setText("Ngày: " + selectedDate);
+                    updateDateTimeLabels();
                 },
-                year,
-                month,
-                day
-        );
-
-        datePickerDialog.show();
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+        ).show();
     }
 
     private void showTimePicker() {
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
-
-        TimePickerDialog timePickerDialog = new TimePickerDialog(
+        new TimePickerDialog(
                 this,
-                (view, selectedHour, selectedMinute) -> {
-                    calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
-                    calendar.set(Calendar.MINUTE, selectedMinute);
-
+                (view, hour, minute) -> {
+                    calendar.set(Calendar.HOUR_OF_DAY, hour);
+                    calendar.set(Calendar.MINUTE, minute);
                     selectedTime = timeFormat.format(calendar.getTime());
-                    btnChooseTime.setText("Giờ: " + selectedTime);
+                    updateDateTimeLabels();
                 },
-                hour,
-                minute,
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
                 true
-        );
-
-        timePickerDialog.show();
+        ).show();
     }
 
     private void saveTask() {
         String title = edtTitle.getText().toString().trim();
         String description = edtDescription.getText().toString().trim();
-
         if (title.isEmpty()) {
-            edtTitle.setError("Vui lòng nhập tiêu đề kế hoạch");
+            edtTitle.setError(getString(R.string.error_task_title_required));
             edtTitle.requestFocus();
             return;
         }
 
         int userId = sessionManager.getUserId();
-
         if (userId == -1) {
-            Toast.makeText(this, "Phiên đăng nhập không hợp lệ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.invalid_session, Toast.LENGTH_SHORT).show();
+            finish();
             return;
         }
 
-        int defaultCategoryId = 0; // Chưa triển khai chọn danh mục
-
+        setSaving(true);
         executorService.execute(() -> {
-            boolean result = databaseHelper.addTask(
+            boolean added = databaseHelper.addTask(
                     title,
                     description,
                     selectedDate,
                     selectedTime,
-                    defaultCategoryId,
+                    0,
                     userId
             );
-
-            mainHandler.post(() -> {
-                if (result) {
-                    Toast.makeText(this, "Thêm kế hoạch thành công", Toast.LENGTH_SHORT).show();
+            runOnUiThread(() -> {
+                if (isFinishing() || isDestroyed()) {
+                    return;
+                }
+                if (added) {
+                    Toast.makeText(this, R.string.task_added, Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
-                    Toast.makeText(this, "Thêm kế hoạch thất bại", Toast.LENGTH_SHORT).show();
+                    setSaving(false);
+                    Toast.makeText(this, R.string.task_add_failed, Toast.LENGTH_SHORT).show();
                 }
             });
         });
     }
 
+    private void updateDateTimeLabels() {
+        btnChooseDate.setText(getString(R.string.date_value, selectedDate));
+        btnChooseTime.setText(getString(R.string.time_value, selectedTime));
+    }
+
+    private void setSaving(boolean saving) {
+        btnSaveTask.setEnabled(!saving);
+        btnSaveTask.setText(saving ? R.string.saving : R.string.save_task);
+    }
+
     @Override
     protected void onDestroy() {
+        executorService.shutdownNow();
         super.onDestroy();
-        executorService.shutdown();
     }
 }

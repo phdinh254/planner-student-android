@@ -1,65 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F7FA">
+    android:clipToPadding="false">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:paddingStart="20dp"
+        android:paddingTop="28dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="32dp">
 
         <TextView
             android:id="@+id/txtWelcome"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Xin chào"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="#1E3A5F" />
+            android:text="@string/welcome_user"
+            android:textAppearance="@style/TextAppearance.PersonalPlanner.Headline" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hôm nay bạn có những kế hoạch cần hoàn thành."
-            android:textSize="16sp"
-            android:textColor="#666666"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginTop="6dp"
+            android:text="@string/home_subtitle"
+            android:textAppearance="@style/TextAppearance.PersonalPlanner.Body" />
 
-        <TextView
-            android:id="@+id/txtTotalTasks"
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.PersonalPlanner.Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tổng kế hoạch: 0"
-            android:textSize="18sp"
-            android:textColor="#1E3A5F"
-            android:padding="16dp"
-            android:background="#FFFFFF"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginTop="24dp"
+            app:cardBackgroundColor="@color/primary_container"
+            app:strokeWidth="0dp">
 
-        <TextView
-            android:id="@+id/txtCompletedTasks"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/overview"
+                    android:textAppearance="@style/TextAppearance.PersonalPlanner.Title" />
+
+                <TextView
+                    android:id="@+id/txtProgressSummary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/progress_summary"
+                    android:textAppearance="@style/TextAppearance.PersonalPlanner.Body" />
+
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/progressCompletion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:max="100"
+                    app:indicatorColor="@color/primary"
+                    app:trackColor="@color/surface"
+                    app:trackCornerRadius="4dp"
+                    app:trackThickness="8dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Đã hoàn thành: 0"
-            android:textSize="18sp"
-            android:textColor="#1E3A5F"
-            android:padding="16dp"
-            android:background="#FFFFFF"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginTop="14dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/txtPendingTasks"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Chưa hoàn thành: 0"
-            android:textSize="18sp"
-            android:textColor="#1E3A5F"
-            android:padding="16dp"
-            android:background="#FFFFFF" />
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.PersonalPlanner.Card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <TextView
+                        android:id="@+id/txtTotalTasks"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/zero"
+                        android:textAppearance="@style/TextAppearance.PersonalPlanner.Headline"
+                        android:textColor="@color/primary" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total_tasks"
+                        android:textAppearance="@style/TextAppearance.PersonalPlanner.Body" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.PersonalPlanner.Card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <TextView
+                        android:id="@+id/txtPendingTasks"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/zero"
+                        android:textAppearance="@style/TextAppearance.PersonalPlanner.Headline"
+                        android:textColor="@color/secondary" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pending_tasks"
+                        android:textAppearance="@style/TextAppearance.PersonalPlanner.Body" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.PersonalPlanner.Card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <TextView
+                        android:id="@+id/txtCompletedTasks"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/zero"
+                        android:textAppearance="@style/TextAppearance.PersonalPlanner.Headline"
+                        android:textColor="@color/success" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/completed_tasks"
+                        android:textAppearance="@style/TextAppearance.PersonalPlanner.Body" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
     </LinearLayout>
-
 </ScrollView>

@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.personalplanner.R;
@@ -34,8 +35,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     }
 
     public void setData(ArrayList<Task> newTaskList) {
-        this.taskList = newTaskList;
-        notifyDataSetChanged();
+        ArrayList<Task> safeList = newTaskList == null ? new ArrayList<>() : newTaskList;
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(new TaskDiffCallback(taskList, safeList));
+        this.taskList = safeList;
+        result.dispatchUpdatesTo(this);
+    }
+
+    public int getPosition(Task task) {
+        return taskList.indexOf(task);
     }
 
     @NonNull
@@ -50,11 +57,21 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         Task task = taskList.get(position);
 
         holder.txtTaskTitle.setText(task.getTitle());
-        holder.txtTaskDescription.setText(task.getDescription());
-        holder.txtTaskDateTime.setText(task.getDate() + " - " + task.getTime());
+        String description = task.getDescription();
+        holder.txtTaskDescription.setText(description);
+        holder.txtTaskDescription.setVisibility(
+                description == null || description.trim().isEmpty() ? View.GONE : View.VISIBLE
+        );
+        holder.txtTaskDateTime.setText(
+                context.getString(R.string.task_date_time, task.getDate(), task.getTime())
+        );
 
         holder.chkStatus.setOnCheckedChangeListener(null);
         holder.chkStatus.setChecked(task.getStatus() == 1);
+        holder.chkStatus.setContentDescription(context.getString(
+                task.getStatus() == 1 ? R.string.mark_pending : R.string.mark_completed,
+                task.getTitle()
+        ));
 
         if (task.getStatus() == 1) {
             holder.txtTaskTitle.setPaintFlags(
@@ -96,6 +113,47 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             txtTaskDescription = itemView.findViewById(R.id.txtTaskDescription);
             txtTaskDateTime = itemView.findViewById(R.id.txtTaskDateTime);
             chkStatus = itemView.findViewById(R.id.chkStatus);
+        }
+    }
+
+    private static class TaskDiffCallback extends DiffUtil.Callback {
+        private final ArrayList<Task> oldList;
+        private final ArrayList<Task> newList;
+
+        TaskDiffCallback(ArrayList<Task> oldList, ArrayList<Task> newList) {
+            this.oldList = oldList;
+            this.newList = newList;
+        }
+
+        @Override
+        public int getOldListSize() {
+            return oldList.size();
+        }
+
+        @Override
+        public int getNewListSize() {
+            return newList.size();
+        }
+
+        @Override
+        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+            return oldList.get(oldItemPosition).getTaskId()
+                    == newList.get(newItemPosition).getTaskId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+            Task oldTask = oldList.get(oldItemPosition);
+            Task newTask = newList.get(newItemPosition);
+            return oldTask.getStatus() == newTask.getStatus()
+                    && safeEquals(oldTask.getTitle(), newTask.getTitle())
+                    && safeEquals(oldTask.getDescription(), newTask.getDescription())
+                    && safeEquals(oldTask.getDate(), newTask.getDate())
+                    && safeEquals(oldTask.getTime(), newTask.getTime());
+        }
+
+        private boolean safeEquals(String first, String second) {
+            return first == null ? second == null : first.equals(second);
         }
     }
 }

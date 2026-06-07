@@ -11,9 +11,12 @@ import com.example.personalplanner.fragment.CalendarFragment;
 import com.example.personalplanner.fragment.HomeFragment;
 import com.example.personalplanner.fragment.ProfileFragment;
 import com.example.personalplanner.fragment.TaskFragment;
+import com.example.personalplanner.utils.SessionManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String STATE_SELECTED_ITEM = "selected_item";
 
     private BottomNavigationView bottomNavigationView;
     private int currentSelectedItemId = R.id.nav_home;
@@ -21,56 +24,58 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        initViews();
+        if (!new SessionManager(this).isLoggedIn()) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
+        setContentView(R.layout.activity_main);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         if (savedInstanceState == null) {
             loadFragment(new HomeFragment());
             bottomNavigationView.setSelectedItemId(R.id.nav_home);
+        } else {
+            currentSelectedItemId = savedInstanceState.getInt(
+                    STATE_SELECTED_ITEM,
+                    R.id.nav_home
+            );
+            bottomNavigationView.setSelectedItemId(currentSelectedItemId);
         }
 
-        handleBottomNavigation();
+        setupBottomNavigation();
     }
 
-    private void initViews() {
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
-    }
-
-    private void handleBottomNavigation() {
+    private void setupBottomNavigation() {
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
-
-            if (itemId == R.id.nav_home) {
-                currentSelectedItemId = R.id.nav_home;
-                loadFragment(new HomeFragment());
-                return true;
-
-            } else if (itemId == R.id.nav_task) {
-                currentSelectedItemId = R.id.nav_task;
-                loadFragment(new TaskFragment());
-                return true;
-
-            } else if (itemId == R.id.nav_add) {
-                Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
-                startActivity(intent);
-
-                // Nút Thêm chỉ mở màn hình mới, không phải tab cố định.
-                bottomNavigationView.post(() -> bottomNavigationView.setSelectedItemId(currentSelectedItemId));
+            if (itemId == R.id.nav_add) {
+                startActivity(new Intent(this, AddTaskActivity.class));
+                bottomNavigationView.post(
+                        () -> bottomNavigationView.setSelectedItemId(currentSelectedItemId)
+                );
                 return false;
-
-            } else if (itemId == R.id.nav_calendar) {
-                currentSelectedItemId = R.id.nav_calendar;
-                loadFragment(new CalendarFragment());
-                return true;
-
-            } else if (itemId == R.id.nav_profile) {
-                currentSelectedItemId = R.id.nav_profile;
-                loadFragment(new ProfileFragment());
-                return true;
             }
 
-            return false;
+            Fragment fragment;
+            if (itemId == R.id.nav_task) {
+                fragment = new TaskFragment();
+            } else if (itemId == R.id.nav_calendar) {
+                fragment = new CalendarFragment();
+            } else if (itemId == R.id.nav_profile) {
+                fragment = new ProfileFragment();
+            } else {
+                fragment = new HomeFragment();
+                itemId = R.id.nav_home;
+            }
+
+            currentSelectedItemId = itemId;
+            loadFragment(fragment);
+            return true;
         });
     }
 
@@ -79,5 +84,11 @@ public class MainActivity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.fragmentContainer, fragment)
                 .commit();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(STATE_SELECTED_ITEM, currentSelectedItemId);
+        super.onSaveInstanceState(outState);
     }
 }

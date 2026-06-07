@@ -19,8 +19,7 @@ public class PasswordUtils {
             return stringBuilder.toString();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            return "";
+            throw new IllegalStateException("SHA-256 is not available", e);
         }
     }
 }

@@ -10,8 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +26,7 @@ import com.example.personalplanner.adapter.TaskAdapter;
 import com.example.personalplanner.database.DatabaseHelper;
 import com.example.personalplanner.model.Task;
 import com.example.personalplanner.utils.SessionManager;
+import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
@@ -32,78 +37,44 @@ public class TaskFragment extends Fragment {
     private RecyclerView recyclerTask;
     private EditText edtSearchTask;
     private TextView txtEmptyTask;
-
+    private ProgressBar progressTasks;
     private TaskAdapter taskAdapter;
-    private ArrayList<Task> taskList;
-
     private DatabaseHelper databaseHelper;
     private SessionManager sessionManager;
-
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private ExecutorService executorService;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
+    private final Runnable searchRunnable = this::loadTasks;
+    private int statusFilter = DatabaseHelper.FILTER_ALL;
 
-    public TaskFragment() {
-    }
-
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_task, container, false);
-
-        initViews(view);
-        initObjects();
-        setupRecyclerView();
-        handleEvents();
-
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if (edtSearchTask != null && edtSearchTask.getText() != null) {
-            String keyword = edtSearchTask.getText().toString().trim();
-
-            if (keyword.isEmpty()) {
-                loadTaskList();
-            } else {
-                searchTask(keyword);
-            }
-        }
-    }
-
-    private void initViews(View view) {
         recyclerTask = view.findViewById(R.id.recyclerTask);
         edtSearchTask = view.findViewById(R.id.edtSearchTask);
         txtEmptyTask = view.findViewById(R.id.txtEmptyTask);
-    }
+        progressTasks = view.findViewById(R.id.progressTasks);
+        ChipGroup chipGroupFilter = view.findViewById(R.id.chipGroupFilter);
 
-    private void initObjects() {
         databaseHelper = new DatabaseHelper(requireContext());
         sessionManager = new SessionManager(requireContext());
-        taskList = new ArrayList<>();
-    }
+        executorService = Executors.newSingleThreadExecutor();
+        taskAdapter = new TaskAdapter(requireContext(), new ArrayList<>(),
+                new TaskAdapter.OnTaskActionListener() {
+                    @Override
+                    public void onTaskClick(Task task) {
+                        openTaskDetail(task);
+                    }
 
-    private void setupRecyclerView() {
-        taskAdapter = new TaskAdapter(requireContext(), taskList, new TaskAdapter.OnTaskActionListener() {
-            @Override
-            public void onTaskClick(Task task) {
-                openTaskDetail(task);
-            }
-
-            @Override
-            public void onStatusChanged(Task task, boolean isChecked) {
-                updateTaskStatus(task, isChecked);
-            }
-        });
-
+                    @Override
+                    public void onStatusChanged(Task task, boolean isChecked) {
+                        updateTaskStatus(task, isChecked);
+                    }
+                });
         recyclerTask.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerTask.setAdapter(taskAdapter);
-    }
 
-    private void handleEvents() {
         edtSearchTask.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -111,101 +82,124 @@ public class TaskFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String keyword = s.toString().trim();
-
-                if (keyword.isEmpty()) {
-                    loadTaskList();
-                } else {
-                    searchTask(keyword);
-                }
+                mainHandler.removeCallbacks(searchRunnable);
+                mainHandler.postDelayed(searchRunnable, 300);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
             }
         });
+
+        chipGroupFilter.setOnCheckedStateChangeListener((group, checkedIds) -> {
+            int checkedId = checkedIds.isEmpty() ? R.id.chipAll : checkedIds.get(0);
+            if (checkedId == R.id.chipPending) {
+                statusFilter = DatabaseHelper.STATUS_PENDING;
+            } else if (checkedId == R.id.chipCompleted) {
+                statusFilter = DatabaseHelper.STATUS_COMPLETED;
+            } else {
+                statusFilter = DatabaseHelper.FILTER_ALL;
+            }
+            loadTasks();
+        });
+        return view;
     }
 
-    private void loadTaskList() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (executorService != null && !executorService.isShutdown()) {
+            loadTasks();
+        }
+    }
+
+    private void loadTasks() {
+        if (executorService == null || executorService.isShutdown()) {
+            return;
+        }
         int userId = sessionManager.getUserId();
-
+        String keyword = edtSearchTask.getText().toString().trim();
+        showLoading(true);
         executorService.execute(() -> {
-            ArrayList<Task> tasks = databaseHelper.getAllTasks(userId);
-
+            ArrayList<Task> tasks = databaseHelper.getTasks(userId, keyword, statusFilter);
             mainHandler.post(() -> {
-                if (!isAdded()) {
+                if (!isAdded() || getView() == null) {
                     return;
                 }
-
                 taskAdapter.setData(tasks);
-                updateEmptyView(tasks);
+                showLoading(false);
+                boolean empty = tasks.isEmpty();
+                txtEmptyTask.setText(keyword.isEmpty()
+                        ? R.string.empty_tasks
+                        : R.string.empty_search_result);
+                txtEmptyTask.setVisibility(empty ? View.VISIBLE : View.GONE);
+                recyclerTask.setVisibility(empty ? View.GONE : View.VISIBLE);
             });
         });
     }
 
-    private void searchTask(String keyword) {
-        int userId = sessionManager.getUserId();
+    private void updateTaskStatus(Task task, boolean checked) {
+        int previousStatus = task.getStatus();
+        int newStatus = checked ? DatabaseHelper.STATUS_COMPLETED : DatabaseHelper.STATUS_PENDING;
+        task.setStatus(newStatus);
+        int position = taskAdapter.getPosition(task);
+        if (position >= 0) {
+            taskAdapter.notifyItemChanged(position);
+        }
 
         executorService.execute(() -> {
-            ArrayList<Task> tasks = databaseHelper.searchTasks(keyword, userId);
-
+            boolean updated = databaseHelper.updateTaskStatus(
+                    task.getTaskId(),
+                    sessionManager.getUserId(),
+                    newStatus
+            );
             mainHandler.post(() -> {
-                if (!isAdded()) {
+                if (!isAdded() || getView() == null) {
                     return;
                 }
-
-                taskAdapter.setData(tasks);
-                updateEmptyView(tasks);
-            });
-        });
-    }
-
-    private void updateTaskStatus(Task task, boolean isChecked) {
-        int newStatus = isChecked ? 1 : 0;
-
-        executorService.execute(() -> {
-            boolean result = databaseHelper.updateTaskStatus(task.getTaskId(), newStatus);
-
-            mainHandler.post(() -> {
-                if (!isAdded()) {
-                    return;
-                }
-
-                if (result) {
-                    task.setStatus(newStatus);
-                    taskAdapter.notifyDataSetChanged();
+                if (updated) {
+                    loadTasks();
+                } else {
+                    task.setStatus(previousStatus);
+                    int currentPosition = taskAdapter.getPosition(task);
+                    if (currentPosition >= 0) {
+                        taskAdapter.notifyItemChanged(currentPosition);
+                    }
+                    Toast.makeText(requireContext(), R.string.status_update_failed,
+                            Toast.LENGTH_SHORT).show();
                 }
             });
         });
     }
 
-    private void updateEmptyView(ArrayList<Task> tasks) {
-        if (tasks == null || tasks.isEmpty()) {
-            txtEmptyTask.setVisibility(View.VISIBLE);
-            recyclerTask.setVisibility(View.GONE);
-        } else {
+    private void showLoading(boolean loading) {
+        progressTasks.setVisibility(loading ? View.VISIBLE : View.GONE);
+        if (loading) {
             txtEmptyTask.setVisibility(View.GONE);
-            recyclerTask.setVisibility(View.VISIBLE);
         }
     }
 
     private void openTaskDetail(Task task) {
         Intent intent = new Intent(requireContext(), TaskDetailActivity.class);
-
         intent.putExtra("task_id", task.getTaskId());
         intent.putExtra("title", task.getTitle());
         intent.putExtra("description", task.getDescription());
         intent.putExtra("date", task.getDate());
         intent.putExtra("time", task.getTime());
         intent.putExtra("status", task.getStatus());
-        intent.putExtra("category_id", task.getCategoryId());
-
         startActivity(intent);
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        executorService.shutdown();
+    public void onDestroyView() {
+        mainHandler.removeCallbacks(searchRunnable);
+        if (executorService != null) {
+            executorService.shutdownNow();
+        }
+        recyclerTask = null;
+        edtSearchTask = null;
+        txtEmptyTask = null;
+        progressTasks = null;
+        super.onDestroyView();
     }
 }

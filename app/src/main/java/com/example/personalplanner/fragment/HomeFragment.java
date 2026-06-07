@@ -6,8 +6,11 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.personalplanner.R;
@@ -21,88 +24,81 @@ import java.util.concurrent.Executors;
 
 public class HomeFragment extends Fragment {
 
-    private TextView txtWelcome, txtTotalTasks, txtCompletedTasks, txtPendingTasks;
-
-    private SessionManager sessionManager;
+    private TextView txtWelcome;
+    private TextView txtTotalTasks;
+    private TextView txtCompletedTasks;
+    private TextView txtPendingTasks;
+    private TextView txtProgressSummary;
+    private ProgressBar progressCompletion;
     private DatabaseHelper databaseHelper;
-
-    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private SessionManager sessionManager;
+    private ExecutorService executorService;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
-    public HomeFragment() {
-    }
-
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-        initViews(view);
-        initObjects();
-        showWelcome();
-        loadStatistics();
-
-        return view;
-    }
-
-    private void initViews(View view) {
         txtWelcome = view.findViewById(R.id.txtWelcome);
         txtTotalTasks = view.findViewById(R.id.txtTotalTasks);
         txtCompletedTasks = view.findViewById(R.id.txtCompletedTasks);
         txtPendingTasks = view.findViewById(R.id.txtPendingTasks);
-    }
-
-    private void initObjects() {
-        sessionManager = new SessionManager(requireContext());
+        txtProgressSummary = view.findViewById(R.id.txtProgressSummary);
+        progressCompletion = view.findViewById(R.id.progressCompletion);
         databaseHelper = new DatabaseHelper(requireContext());
-    }
+        sessionManager = new SessionManager(requireContext());
+        executorService = Executors.newSingleThreadExecutor();
 
-    private void showWelcome() {
-        txtWelcome.setText("Xin chào, " + sessionManager.getUsername());
-    }
-
-    private void loadStatistics() {
-        int userId = sessionManager.getUserId();
-
-        executorService.execute(() -> {
-            ArrayList<Task> tasks = databaseHelper.getAllTasks(userId);
-
-            int completed = 0;
-
-            for (Task task : tasks) {
-                if (task.getStatus() == 1) {
-                    completed++;
-                }
-            }
-
-            final int total = tasks.size();
-            final int completedTasks = completed;
-            final int pending = total - completedTasks;
-
-            mainHandler.post(() -> {
-                if (!isAdded()) {
-                    return;
-                }
-
-                txtTotalTasks.setText("Tổng kế hoạch: " + total);
-                txtCompletedTasks.setText("Đã hoàn thành: " + completedTasks);
-                txtPendingTasks.setText("Chưa hoàn thành: " + pending);
-            });
-        });
+        String username = sessionManager.getUsername();
+        txtWelcome.setText(getString(
+                R.string.welcome_user,
+                username.isEmpty() ? getString(R.string.default_user) : username
+        ));
+        return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (sessionManager != null && databaseHelper != null) {
+        if (executorService != null && !executorService.isShutdown()) {
             loadStatistics();
         }
     }
 
+    private void loadStatistics() {
+        int userId = sessionManager.getUserId();
+        executorService.execute(() -> {
+            ArrayList<Task> tasks = databaseHelper.getAllTasks(userId);
+            int completed = 0;
+            for (Task task : tasks) {
+                if (task.getStatus() == DatabaseHelper.STATUS_COMPLETED) {
+                    completed++;
+                }
+            }
+            int total = tasks.size();
+            int pending = total - completed;
+            int percent = total == 0 ? 0 : Math.round(completed * 100f / total);
+
+            int finalCompleted = completed;
+            mainHandler.post(() -> {
+                if (!isAdded() || getView() == null) {
+                    return;
+                }
+                txtTotalTasks.setText(String.valueOf(total));
+                txtCompletedTasks.setText(String.valueOf(finalCompleted));
+                txtPendingTasks.setText(String.valueOf(pending));
+                progressCompletion.setProgress(percent);
+                txtProgressSummary.setText(getString(R.string.progress_summary, percent));
+            });
+        });
+    }
+
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        executorService.shutdown();
+    public void onDestroyView() {
+        if (executorService != null) {
+            executorService.shutdownNow();
+        }
+        super.onDestroyView();
     }
 }

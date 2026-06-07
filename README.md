@@ -31,6 +31,3 @@
 4. Chờ Gradle Sync.
 5. Chạy ứng dụng bằng máy ảo hoặc điện thoại thật.
 
-## Lưu ý báo cáo
-Ứng dụng dùng SHA-256 để minh họa việc không lưu mật khẩu dạng văn bản thường. Trong thực tế nên dùng BCrypt, PBKDF2 hoặc Argon2id.
-Ứng dụng dùng SQLite thuần. MVVM, Room và Firebase chỉ nên ghi ở mục hướng phát triển nếu chưa triển khai thật trong code.
