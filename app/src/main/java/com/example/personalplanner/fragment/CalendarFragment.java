@@ -19,8 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.personalplanner.R;
 import com.example.personalplanner.activity.TaskDetailActivity;
 import com.example.personalplanner.adapter.TaskAdapter;
-import com.example.personalplanner.database.DatabaseHelper;
-import com.example.personalplanner.model.Task;
+import com.example.personalplanner.data.local.DatabaseHelper;
+import com.example.personalplanner.data.model.StudyPlan;
 import com.example.personalplanner.utils.SessionManager;
 
 import java.text.SimpleDateFormat;
@@ -31,7 +31,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class CalendarFragment extends Fragment {
-
     private TextView txtSelectedDate;
     private TextView txtCalendarEmpty;
     private RecyclerView recyclerCalendarTasks;
@@ -55,89 +54,65 @@ public class CalendarFragment extends Fragment {
         databaseHelper = new DatabaseHelper(requireContext());
         sessionManager = new SessionManager(requireContext());
         executorService = Executors.newSingleThreadExecutor();
-
-        adapter = new TaskAdapter(requireContext(), new ArrayList<>(),
-                new TaskAdapter.OnTaskActionListener() {
-                    @Override
-                    public void onTaskClick(Task task) {
-                        openTaskDetail(task);
-                    }
-
-                    @Override
-                    public void onStatusChanged(Task task, boolean isChecked) {
-                        updateStatus(task, isChecked);
-                    }
+        adapter = new TaskAdapter(new TaskAdapter.OnTaskActionListener() {
+            public void onTaskClick(StudyPlan plan) { openDetail(plan); }
+            public void onStatusChanged(StudyPlan plan, boolean checked) {
+                executorService.execute(() -> {
+                    databaseHelper.updateStudyPlanStatus(plan.getPlanId(),
+                            sessionManager.getUserId(), checked ? 1 : 0);
+                    mainHandler.post(CalendarFragment.this::loadDate);
                 });
+            }
+        });
         recyclerCalendarTasks.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerCalendarTasks.setAdapter(adapter);
-
-        calendarView.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
-            selectedDate = String.format(Locale.US, "%04d-%02d-%02d", year, month + 1, dayOfMonth);
-            loadSelectedDate();
+        calendarView.setOnDateChangeListener((v, year, month, day) -> {
+            selectedDate = String.format(Locale.US, "%04d-%02d-%02d", year, month + 1, day);
+            loadDate();
         });
-        loadSelectedDate();
+        loadDate();
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (executorService != null && !executorService.isShutdown()) {
-            loadSelectedDate();
-        }
+        if (executorService != null && !executorService.isShutdown()) loadDate();
     }
 
-    private void loadSelectedDate() {
+    private void loadDate() {
+        if (executorService == null || executorService.isShutdown()) return;
         txtSelectedDate.setText(getString(R.string.tasks_on_date, selectedDate));
         executorService.execute(() -> {
-            ArrayList<Task> tasks = databaseHelper.getTasksByDate(
-                    sessionManager.getUserId(),
-                    selectedDate
-            );
+            ArrayList<StudyPlan> plans = databaseHelper.getStudyPlansByDate(
+                    sessionManager.getUserId(), selectedDate);
             mainHandler.post(() -> {
-                if (!isAdded() || getView() == null) {
-                    return;
-                }
-                adapter.setData(tasks);
-                boolean empty = tasks.isEmpty();
-                txtCalendarEmpty.setVisibility(empty ? View.VISIBLE : View.GONE);
-                recyclerCalendarTasks.setVisibility(empty ? View.GONE : View.VISIBLE);
+                if (!isAdded() || getView() == null) return;
+                adapter.setData(plans);
+                txtCalendarEmpty.setVisibility(plans.isEmpty() ? View.VISIBLE : View.GONE);
+                recyclerCalendarTasks.setVisibility(plans.isEmpty() ? View.GONE : View.VISIBLE);
             });
         });
     }
 
-    private void updateStatus(Task task, boolean checked) {
-        executorService.execute(() -> {
-            databaseHelper.updateTaskStatus(
-                    task.getTaskId(),
-                    sessionManager.getUserId(),
-                    checked ? 1 : 0
-            );
-            mainHandler.post(() -> {
-                if (isAdded() && getView() != null
-                        && executorService != null && !executorService.isShutdown()) {
-                    loadSelectedDate();
-                }
-            });
-        });
-    }
-
-    private void openTaskDetail(Task task) {
+    private void openDetail(StudyPlan plan) {
         Intent intent = new Intent(requireContext(), TaskDetailActivity.class);
-        intent.putExtra("task_id", task.getTaskId());
-        intent.putExtra("title", task.getTitle());
-        intent.putExtra("description", task.getDescription());
-        intent.putExtra("date", task.getDate());
-        intent.putExtra("time", task.getTime());
-        intent.putExtra("status", task.getStatus());
+        intent.putExtra("plan_id", plan.getPlanId());
+        intent.putExtra("title", plan.getTitle());
+        intent.putExtra("description", plan.getDescription());
+        intent.putExtra("date", plan.getDate());
+        intent.putExtra("time", plan.getTime());
+        intent.putExtra("status", plan.getStatus());
+        intent.putExtra("course_id", plan.getCourseId());
+        intent.putExtra("priority", plan.getPriority());
+        intent.putExtra("duration", plan.getDurationMinutes());
+        intent.putExtra("reminder_enabled", plan.isReminderEnabled());
         startActivity(intent);
     }
 
     @Override
     public void onDestroyView() {
-        if (executorService != null) {
-            executorService.shutdownNow();
-        }
+        if (executorService != null) executorService.shutdownNow();
         super.onDestroyView();
     }
 }

@@ -10,7 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.personalplanner.R;
-import com.example.personalplanner.database.DatabaseHelper;
+import com.example.personalplanner.data.local.DatabaseHelper;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

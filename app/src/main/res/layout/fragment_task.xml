@@ -64,6 +64,14 @@
             android:text="@string/filter_completed" />
     </com.google.android.material.chip.ChipGroup>
 
+    <Spinner
+        android:id="@+id/spinnerCourseFilter"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="6dp"
+        android:background="@color/surface"
+        android:paddingHorizontal="12dp" />
+
     <ProgressBar
         android:id="@+id/progressTasks"
         android:layout_width="32dp"
@@ -80,7 +88,7 @@
         android:layout_marginTop="48dp"
         android:gravity="center"
         android:padding="24dp"
-        android:text="@string/empty_tasks"
+        android:text="@string/empty_study_plans"
         android:textAppearance="@style/TextAppearance.PersonalPlanner.Body"
         android:visibility="gone" />
 

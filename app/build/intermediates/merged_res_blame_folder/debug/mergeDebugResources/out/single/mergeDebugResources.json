@@ -8,99 +8,75 @@
         "source": "com.example.personalplanner.app-main-34:/layout/activity_main.xml"
     },
     {
-        "merged": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-debug-32:\\layout_fragment_calendar.xml.flat",
-        "source": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-main-34:\\layout\\fragment_calendar.xml"
+        "merged": "com.example.personalplanner.app-debug-32:/drawable_ic_calendar.xml.flat",
+        "source": "com.example.personalplanner.app-main-34:/drawable/ic_calendar.xml"
     },
     {
-        "merged": "com.example.personalplanner.app-debug-32:/layout_fragment_profile.xml.flat",
-        "source": "com.example.personalplanner.app-main-34:/layout/fragment_profile.xml"
+        "merged": "com.example.personalplanner.app-debug-32:/layout_activity_course_list.xml.flat",
+        "source": "com.example.personalplanner.app-main-34:/layout/activity_course_list.xml"
     },
     {
-        "merged": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-debug-32:\\menu_bottom_nav_menu.xml.flat",
-        "source": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-main-34:\\menu\\bottom_nav_menu.xml"
-    },
-    {
-        "merged": "com.example.personalplanner.app-debug-32:/layout_activity_add_task.xml.flat",
-        "source": "com.example.personalplanner.app-main-34:/layout/activity_add_task.xml"
-    },
-    {
-        "merged": "com.example.personalplanner.app-debug-32:/layout_fragment_task.xml.flat",
-        "source": "com.example.personalplanner.app-main-34:/layout/fragment_task.xml"
-    },
-    {
-        "merged": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-debug-32:\\layout_fragment_home.xml.flat",
-        "source": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-main-34:\\layout\\fragment_home.xml"
-    },
-    {
-        "merged": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-debug-32:\\layout_item_task.xml.flat",
-        "source": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-main-34:\\layout\\item_task.xml"
-    },
-    {
-        "merged": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-debug-32:\\drawable_ic_home.xml.flat",
-        "source": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-main-34:\\drawable\\ic_home.xml"
-    },
-    {
-        "merged": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-debug-32:\\layout_activity_login.xml.flat",
-        "source": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-main-34:\\layout\\activity_login.xml"
-    },
-    {
-        "merged": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-debug-32:\\drawable_ic_app_logo.xml.flat",
-        "source": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-main-34:\\drawable\\ic_app_logo.xml"
-    },
-    {
-        "merged": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-debug-32:\\layout_activity_task_detail.xml.flat",
-        "source": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-main-34:\\layout\\activity_task_detail.xml"
-    },
-    {
-        "merged": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-debug-32:\\layout_fragment_profile.xml.flat",
-        "source": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-main-34:\\layout\\fragment_profile.xml"
-    },
-    {
-        "merged": "com.example.personalplanner.app-debug-32:/layout_fragment_calendar.xml.flat",
-        "source": "com.example.personalplanner.app-main-34:/layout/fragment_calendar.xml"
-    },
-    {
-        "merged": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-debug-32:\\drawable_ic_profile.xml.flat",
-        "source": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-main-34:\\drawable\\ic_profile.xml"
-    },
-    {
-        "merged": "com.example.personalplanner.app-debug-32:/layout_activity_task_detail.xml.flat",
-        "source": "com.example.personalplanner.app-main-34:/layout/activity_task_detail.xml"
-    },
-    {
-        "merged": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-debug-32:\\layout_activity_register.xml.flat",
-        "source": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-main-34:\\layout\\activity_register.xml"
-    },
-    {
-        "merged": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-debug-32:\\layout_activity_add_task.xml.flat",
-        "source": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-main-34:\\layout\\activity_add_task.xml"
+        "merged": "com.example.personalplanner.app-debug-32:/drawable_ic_tasks.xml.flat",
+        "source": "com.example.personalplanner.app-main-34:/drawable/ic_tasks.xml"
     },
     {
         "merged": "com.example.personalplanner.app-debug-32:/layout_fragment_home.xml.flat",
         "source": "com.example.personalplanner.app-main-34:/layout/fragment_home.xml"
     },
     {
-        "merged": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-debug-32:\\layout_fragment_task.xml.flat",
-        "source": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-main-34:\\layout\\fragment_task.xml"
+        "merged": "com.example.personalplanner.app-debug-32:/layout_fragment_profile.xml.flat",
+        "source": "com.example.personalplanner.app-main-34:/layout/fragment_profile.xml"
+    },
+    {
+        "merged": "com.example.personalplanner.app-debug-32:/menu_bottom_nav_menu.xml.flat",
+        "source": "com.example.personalplanner.app-main-34:/menu/bottom_nav_menu.xml"
+    },
+    {
+        "merged": "com.example.personalplanner.app-debug-32:/layout_activity_add_task.xml.flat",
+        "source": "com.example.personalplanner.app-main-34:/layout/activity_add_task.xml"
     },
     {
         "merged": "com.example.personalplanner.app-debug-32:/layout_activity_login.xml.flat",
         "source": "com.example.personalplanner.app-main-34:/layout/activity_login.xml"
     },
     {
-        "merged": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-debug-32:\\drawable_ic_add.xml.flat",
-        "source": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-main-34:\\drawable\\ic_add.xml"
+        "merged": "com.example.personalplanner.app-debug-32:/layout_fragment_task.xml.flat",
+        "source": "com.example.personalplanner.app-main-34:/layout/fragment_task.xml"
     },
     {
-        "merged": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-debug-32:\\drawable_ic_tasks.xml.flat",
-        "source": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-main-34:\\drawable\\ic_tasks.xml"
+        "merged": "com.example.personalplanner.app-debug-32:/drawable_ic_add.xml.flat",
+        "source": "com.example.personalplanner.app-main-34:/drawable/ic_add.xml"
     },
     {
-        "merged": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-debug-32:\\layout_activity_main.xml.flat",
-        "source": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-main-34:\\layout\\activity_main.xml"
+        "merged": "com.example.personalplanner.app-debug-32:/layout_item_task.xml.flat",
+        "source": "com.example.personalplanner.app-main-34:/layout/item_task.xml"
     },
     {
-        "merged": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-debug-32:\\drawable_ic_calendar.xml.flat",
-        "source": "C:\\Users\\tranp\\.gradle\\daemon\\9.0.0\\com.example.personalplanner.app-main-34:\\drawable\\ic_calendar.xml"
+        "merged": "com.example.personalplanner.app-debug-32:/drawable_ic_app_logo.xml.flat",
+        "source": "com.example.personalplanner.app-main-34:/drawable/ic_app_logo.xml"
+    },
+    {
+        "merged": "com.example.personalplanner.app-debug-32:/drawable_ic_profile.xml.flat",
+        "source": "com.example.personalplanner.app-main-34:/drawable/ic_profile.xml"
+    },
+    {
+        "merged": "com.example.personalplanner.app-debug-32:/layout_activity_course_form.xml.flat",
+        "source": "com.example.personalplanner.app-main-34:/layout/activity_course_form.xml"
+    },
+    {
+        "merged": "com.example.personalplanner.app-debug-32:/layout_fragment_calendar.xml.flat",
+        "source": "com.example.personalplanner.app-main-34:/layout/fragment_calendar.xml"
+    },
+    {
+        "merged": "com.example.personalplanner.app-debug-32:/layout_activity_task_detail.xml.flat",
+        "source": "com.example.personalplanner.app-main-34:/layout/activity_task_detail.xml"
+    },
+    {
+        "merged": "com.example.personalplanner.app-debug-32:/drawable_ic_home.xml.flat",
+        "source": "com.example.personalplanner.app-main-34:/drawable/ic_home.xml"
+    },
+    {
+        "merged": "com.example.personalplanner.app-debug-32:/layout_item_course.xml.flat",
+        "source": "com.example.personalplanner.app-main-34:/layout/item_course.xml"
     }
 ]

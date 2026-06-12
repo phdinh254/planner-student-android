@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:2:1-40:12
-INJECTED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:2:1-40:12
-INJECTED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:2:1-40:12
-INJECTED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:2:1-40:12
+ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:2:1-63:12
+INJECTED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:2:1-63:12
+INJECTED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:2:1-63:12
+INJECTED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:2:1-63:12
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\tranp\.gradle\caches\9.0.0\transforms\2bb211e66df003a6ca90ee2817811296\transformed\material-1.12.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.appcompat:appcompat-resources:1.7.0] C:\Users\tranp\.gradle\caches\9.0.0\transforms\fc3f81aeec0d7bbb7b456d8d24bc641b\transformed\appcompat-resources-1.7.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\tranp\.gradle\caches\9.0.0\transforms\3e263cb1c4ebdf6db402eafbd0793834\transformed\constraintlayout-2.0.1\AndroidManifest.xml:2:1-11:12
@@ -54,9 +54,17 @@ MERGED from [androidx.annotation:annotation-experimental:1.4.0] C:\Users\tranp\.
 		INJECTED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.POST_NOTIFICATIONS
+ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:3:5-77
+	android:name
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:3:22-74
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:4:5-81
+	android:name
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:4:22-78
 application
-ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:4:5-38:19
-INJECTED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:4:5-38:19
+ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:6:5-61:19
+INJECTED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:6:5-61:19
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\tranp\.gradle\caches\9.0.0\transforms\2bb211e66df003a6ca90ee2817811296\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\tranp\.gradle\caches\9.0.0\transforms\2bb211e66df003a6ca90ee2817811296\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\tranp\.gradle\caches\9.0.0\transforms\3e263cb1c4ebdf6db402eafbd0793834\transformed\constraintlayout-2.0.1\AndroidManifest.xml:9:5-20
@@ -78,55 +86,87 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\tranp\.gradle\cach
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.13.0] C:\Users\tranp\.gradle\caches\9.0.0\transforms\e5069bcb04223e84dd5a5cbdbc20c4b6\transformed\core-1.13.0\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:8:9-35
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:10:9-35
 	android:label
-		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:7:9-41
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:9:9-41
 	android:icon
-		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:6:9-45
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:8:9-45
 	android:allowBackup
-		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:5:9-35
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:7:9-35
 	android:theme
-		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:9:9-53
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:11:9-53
+activity#com.example.personalplanner.activity.CourseFormActivity
+ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:13:9-15:40
+	android:exported
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:15:13-37
+	android:name
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:14:13-56
+activity#com.example.personalplanner.activity.CourseListActivity
+ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:17:9-19:40
+	android:exported
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:19:13-37
+	android:name
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:18:13-56
 activity#com.example.personalplanner.activity.TaskDetailActivity
-ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:11:9-13:40
+ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:21:9-23:40
 	android:exported
-		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:13:13-37
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:23:13-37
 	android:name
-		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:12:13-56
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:22:13-56
 activity#com.example.personalplanner.activity.AddTaskActivity
-ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:15:9-17:40
+ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:25:9-27:40
 	android:exported
-		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:17:13-37
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:27:13-37
 	android:name
-		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:16:13-53
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:26:13-53
 activity#com.example.personalplanner.activity.MainActivity
-ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:19:9-21:40
+ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:29:9-31:40
 	android:exported
-		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:21:13-37
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:31:13-37
 	android:name
-		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:20:13-50
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:30:13-50
 activity#com.example.personalplanner.activity.RegisterActivity
-ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:23:9-25:40
+ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:33:9-35:40
 	android:exported
-		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:25:13-37
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:35:13-37
 	android:name
-		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:24:13-54
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:34:13-54
 activity#com.example.personalplanner.activity.LoginActivity
-ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:27:9-36:20
+ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:37:9-46:20
 	android:exported
-		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:29:13-36
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:39:13-36
 	android:name
-		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:28:13-51
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:38:13-51
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:31:13-34:29
+ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:41:13-44:29
 action#android.intent.action.MAIN
-ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:32:17-69
+ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:42:17-69
 	android:name
-		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:32:25-66
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:42:25-66
 category#android.intent.category.LAUNCHER
-ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:33:17-77
+ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:43:17-77
 	android:name
-		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:33:27-74
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:43:27-74
+receiver#com.example.personalplanner.notification.ReminderReceiver
+ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:48:9-50:40
+	android:exported
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:50:13-37
+	android:name
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:49:13-58
+receiver#com.example.personalplanner.notification.BootReceiver
+ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:52:9-59:20
+	android:enabled
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:54:13-35
+	android:exported
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:55:13-36
+	android:name
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:53:13-54
+intent-filter#action:name:android.intent.action.BOOT_COMPLETED
+ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:56:13-58:29
+action#android.intent.action.BOOT_COMPLETED
+ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:57:17-79
+	android:name
+		ADDED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml:57:25-76
 uses-sdk
 INJECTED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from D:\LTDD\PersonalPlanner_Java_XML_SQLite\PersonalPlanner\app\src\main\AndroidManifest.xml
