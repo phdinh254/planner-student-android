@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Study Planner</string>
+    <string name="app_tagline">Quản lý môn học, lịch học và tiến độ cá nhân.</string>
+    <string name="login">Đăng nhập</string>
+    <string name="register">Đăng ký</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="loading">Đang xử lý…</string>
+    <string name="saving">Đang lưu…</string>
+    <string name="username">Tên đăng nhập</string>
+    <string name="email">Email</string>
+    <string name="password">Mật khẩu</string>
+    <string name="confirm_password">Nhập lại mật khẩu</string>
+    <string name="no_account">Chưa có tài khoản? Đăng ký</string>
+    <string name="has_account">Đã có tài khoản? Đăng nhập</string>
+    <string name="create_account">Tạo tài khoản sinh viên</string>
+    <string name="create_account_subtitle">Dữ liệu học tập được lưu cục bộ trên thiết bị.</string>
+    <string name="login_success">Đăng nhập thành công</string>
+    <string name="register_success">Đăng ký thành công</string>
+    <string name="register_failed">Không thể tạo tài khoản. Vui lòng thử lại.</string>
+    <string name="error_username_required">Vui lòng nhập tên đăng nhập</string>
+    <string name="error_username_length">Tên đăng nhập cần ít nhất 3 ký tự</string>
+    <string name="error_password_required">Vui lòng nhập mật khẩu</string>
+    <string name="error_password_length">Mật khẩu cần ít nhất 6 ký tự</string>
+    <string name="error_password_mismatch">Mật khẩu nhập lại không khớp</string>
+    <string name="error_email_invalid">Email không đúng định dạng</string>
+    <string name="error_username_exists">Tên đăng nhập đã tồn tại</string>
+    <string name="error_email_exists">Email đã được sử dụng</string>
+    <string name="error_login_invalid">Tên đăng nhập hoặc mật khẩu không đúng</string>
+
+    <string name="nav_home">Tổng quan</string>
+    <string name="nav_tasks">Kế hoạch</string>
+    <string name="nav_add">Thêm</string>
+    <string name="nav_calendar">Lịch học</string>
+    <string name="nav_profile">Cá nhân</string>
+    <string name="welcome_student">Xin chào, %1$s</string>
+    <string name="default_user">sinh viên</string>
+    <string name="home_subtitle">Theo dõi khối lượng học tập và tiến độ hoàn thành.</string>
+    <string name="overview">Tiến độ học tập</string>
+    <string name="total_tasks">Tổng kế hoạch</string>
+    <string name="completed_tasks">Hoàn thành</string>
+    <string name="pending_tasks">Chưa xong</string>
+    <string name="course_count">Môn học</string>
+    <string name="planned_hours">Giờ dự kiến</string>
+    <string name="study_progress_summary">Bạn đã hoàn thành %1$d%% kế hoạch học tập.</string>
+    <string name="zero">0</string>
+
+    <string name="task_list">Kế hoạch học tập</string>
+    <string name="task_list_subtitle">Tìm kiếm và lọc kế hoạch theo môn học hoặc trạng thái.</string>
+    <string name="search_tasks">Tìm theo nội dung hoặc môn học</string>
+    <string name="filter_all">Tất cả</string>
+    <string name="filter_pending">Chưa xong</string>
+    <string name="filter_completed">Hoàn thành</string>
+    <string name="all_courses">Tất cả môn học</string>
+    <string name="empty_study_plans">Chưa có kế hoạch học tập. Nhấn “Thêm” để bắt đầu.</string>
+    <string name="empty_search_result">Không tìm thấy kế hoạch phù hợp.</string>
+    <string name="status_update_failed">Không thể cập nhật trạng thái</string>
+    <string name="task_date_time">%1$s · %2$s</string>
+    <string name="study_meta">%1$s · %2$d phút</string>
+
+    <string name="add_study_plan">Thêm kế hoạch học tập</string>
+    <string name="edit_study_plan">Chi tiết kế hoạch học tập</string>
+    <string name="study_plan_form_subtitle">Chọn môn học, thời lượng và thời điểm cần hoàn thành.</string>
+    <string name="study_plan_title">Nội dung cần học</string>
+    <string name="description">Ghi chú</string>
+    <string name="course">Môn học</string>
+    <string name="priority">Mức ưu tiên</string>
+    <string name="duration_minutes">Thời lượng (phút)</string>
+    <string name="default_duration">60</string>
+    <string name="enable_reminder">Nhắc tôi khi đến giờ học</string>
+    <string name="manage_courses">Quản lý môn học</string>
+    <string name="uncategorized_course">Chưa phân loại</string>
+    <string name="course_loading">Danh sách môn học đang được tải</string>
+    <string name="error_duration">Thời lượng phải lớn hơn 0 phút</string>
+    <string name="date_value">Ngày: %1$s</string>
+    <string name="time_value">Giờ: %1$s</string>
+    <string name="save_study_plan">Lưu kế hoạch học tập</string>
+    <string name="update_study_plan">Cập nhật kế hoạch</string>
+    <string name="delete_study_plan">Xóa kế hoạch</string>
+    <string name="completed_status">Đã hoàn thành</string>
+    <string name="cancel">Hủy</string>
+    <string name="back">Quay lại</string>
+    <string name="delete">Xóa</string>
+    <string name="error_task_title_required">Vui lòng nhập nội dung cần học</string>
+    <string name="task_added">Đã thêm kế hoạch học tập</string>
+    <string name="task_add_failed">Không thể thêm kế hoạch học tập</string>
+    <string name="task_updated">Đã cập nhật kế hoạch</string>
+    <string name="task_update_failed">Không thể cập nhật kế hoạch</string>
+    <string name="task_deleted">Đã xóa kế hoạch</string>
+    <string name="task_delete_failed">Không thể xóa kế hoạch</string>
+    <string name="task_not_found">Không tìm thấy kế hoạch</string>
+    <string name="confirm_delete_title">Xóa kế hoạch học tập?</string>
+    <string name="confirm_delete_message">Hành động này không thể hoàn tác.</string>
+
+    <string name="course_list_title">Môn học của bạn</string>
+    <string name="course_list_subtitle">Tạo môn học để phân loại kế hoạch và theo dõi khối lượng học.</string>
+    <string name="add_course">Thêm môn học</string>
+    <string name="empty_courses">Chưa có môn học. Hãy tạo môn đầu tiên.</string>
+    <string name="course_form_title">Thông tin môn học</string>
+    <string name="course_form_subtitle">Mã môn và giảng viên có thể để trống.</string>
+    <string name="course_name">Tên môn học</string>
+    <string name="course_code">Mã môn học</string>
+    <string name="lecturer">Giảng viên</string>
+    <string name="course_color">Màu nhận diện</string>
+    <string name="save_course">Lưu môn học</string>
+    <string name="delete_course">Xóa môn học</string>
+    <string name="confirm_delete_course">Kế hoạch thuộc môn này sẽ chuyển về “Chưa phân loại”.</string>
+    <string name="error_course_name_required">Vui lòng nhập tên môn học</string>
+    <string name="course_saved">Đã lưu môn học</string>
+    <string name="course_save_failed">Không thể lưu môn học</string>
+    <string name="course_deleted">Đã xóa môn học</string>
+    <string name="course_delete_failed">Không thể xóa môn học</string>
+    <string name="no_course_code">Chưa có mã môn</string>
+    <string name="no_lecturer">Chưa có thông tin giảng viên</string>
+
+    <string name="calendar_title">Lịch học tập</string>
+    <string name="calendar_subtitle">Chọn ngày để xem các nội dung cần học.</string>
+    <string name="tasks_on_date">Kế hoạch ngày %1$s</string>
+    <string name="empty_calendar">Ngày này chưa có kế hoạch học tập.</string>
+    <string name="profile_title">Hồ sơ sinh viên</string>
+    <string name="profile_subtitle">Quản lý tài khoản và dữ liệu môn học trên thiết bị.</string>
+    <string name="profile_username_label">Tên đăng nhập</string>
+    <string name="profile_email_label">Email</string>
+    <string name="profile_email_unavailable">Chưa có thông tin email</string>
+    <string name="confirm_logout_message">Bạn có chắc muốn kết thúc phiên đăng nhập?</string>
+
+    <string name="reminder_channel_name">Nhắc lịch học</string>
+    <string name="reminder_channel_description">Thông báo khi đến thời gian thực hiện kế hoạch học tập</string>
+    <string name="reminder_content">Đã đến thời gian học theo kế hoạch.</string>
+    <string name="reminder_content_course">Đã đến thời gian học môn %1$s.</string>
+
+    <string-array name="priority_names">
+        <item>Thấp</item>
+        <item>Trung bình</item>
+        <item>Cao</item>
+    </string-array>
+    <string-array name="course_color_names">
+        <item>Xanh ngọc</item>
+        <item>Xanh dương</item>
+        <item>Tím</item>
+        <item>Cam đất</item>
+        <item>Xanh lá</item>
+        <item>Đỏ trầm</item>
+    </string-array>
+</resources>
