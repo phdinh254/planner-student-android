@@ -20,7 +20,8 @@ import com.example.personalplanner.activity.LoginActivity;
 import com.example.personalplanner.data.local.DatabaseHelper;
 import com.example.personalplanner.data.model.User;
 import com.example.personalplanner.utils.SessionManager;
-import com.google.android.material.button.MaterialButton;
+import com.example.personalplanner.utils.ThemeManager;
+import com.google.android.material.chip.ChipGroup;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -37,19 +38,42 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile_simplified, container, false);
         txtProfileUsername = view.findViewById(R.id.txtProfileUsername);
         txtProfileEmail = view.findViewById(R.id.txtProfileEmail);
-        MaterialButton btnManageCategories = view.findViewById(R.id.btnManageCategories);
-        MaterialButton btnLogout = view.findViewById(R.id.btnLogout);
+        View btnManageCategories = view.findViewById(R.id.btnManageCategories);
+        View btnLogout = view.findViewById(R.id.btnLogout);
         sessionManager = new SessionManager(requireContext());
         databaseHelper = new DatabaseHelper(requireContext());
         executorService = Executors.newSingleThreadExecutor();
+        setupThemeChips(view);
         btnManageCategories.setOnClickListener(v ->
                 startActivity(new Intent(requireContext(), PlanCategoryListActivity.class)));
         btnLogout.setOnClickListener(v -> confirmLogout());
         loadProfile();
         return view;
+    }
+
+    private void setupThemeChips(View view) {
+        ChipGroup chipGroupTheme = view.findViewById(R.id.chipGroupTheme);
+        int mode = ThemeManager.getSavedMode(requireContext());
+        if (mode == ThemeManager.MODE_LIGHT) {
+            chipGroupTheme.check(R.id.chipThemeLight);
+        } else if (mode == ThemeManager.MODE_DARK) {
+            chipGroupTheme.check(R.id.chipThemeDark);
+        } else {
+            chipGroupTheme.check(R.id.chipThemeSystem);
+        }
+        chipGroupTheme.setOnCheckedStateChangeListener((group, checkedIds) -> {
+            int checkedId = checkedIds.isEmpty() ? R.id.chipThemeSystem : checkedIds.get(0);
+            if (checkedId == R.id.chipThemeLight) {
+                ThemeManager.saveMode(requireContext(), ThemeManager.MODE_LIGHT);
+            } else if (checkedId == R.id.chipThemeDark) {
+                ThemeManager.saveMode(requireContext(), ThemeManager.MODE_DARK);
+            } else {
+                ThemeManager.saveMode(requireContext(), ThemeManager.MODE_SYSTEM);
+            }
+        });
     }
 
     private void loadProfile() {

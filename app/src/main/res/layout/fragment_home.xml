@@ -84,8 +84,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
-                app:cardBackgroundColor="@color/primary"
-                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/surface"
+                app:cardElevation="2dp"
                 app:cardUseCompatPadding="true"
                 app:strokeWidth="0dp">
 
@@ -98,12 +98,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="32dp"
-                        android:background="@drawable/bg_badge_on_primary"
+                        android:background="@drawable/bg_stat_primary"
                         android:gravity="center"
                         android:paddingStart="14dp"
                         android:paddingEnd="14dp"
                         android:text="T&#7893;ng quan h&#244;m nay"
-                        android:textColor="@color/on_primary"
+                        android:textColor="@color/primary_dark"
                         android:textSize="12sp"
                         android:textStyle="bold" />
 
@@ -113,8 +113,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="18dp"
                         android:fontFamily="sans-serif-medium"
-                        android:textColor="@color/on_primary"
-                        android:textSize="34sp"
+                        android:textColor="@color/text_primary"
+                        android:textSize="30sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -123,7 +123,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:lineSpacingExtra="4dp"
-                        android:textColor="#D9ECFF"
+                        android:textColor="@color/text_secondary"
                         android:textSize="14sp" />
 
                     <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -132,8 +132,8 @@
                         android:layout_height="8dp"
                         android:layout_marginTop="20dp"
                         android:progress="0"
-                        app:indicatorColor="@color/teal"
-                        app:trackColor="#5EA2E3"
+                        app:indicatorColor="@color/primary"
+                        app:trackColor="@color/outline"
                         app:trackCornerRadius="4dp"
                         app:trackThickness="8dp" />
 
@@ -145,8 +145,8 @@
                         android:minWidth="150dp"
                         android:text="Xem k&#7871; ho&#7841;ch"
                         android:textAllCaps="false"
-                        android:textColor="@color/primary"
-                        app:backgroundTint="@color/on_primary"
+                        android:textColor="@color/on_primary"
+                        app:backgroundTint="@color/primary"
                         app:cornerRadius="12dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -164,7 +164,7 @@
                     android:layout_height="118dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="6dp"
-                    app:cardBackgroundColor="@color/surface"
+                    app:cardBackgroundColor="@color/primary_container"
                     app:cardElevation="1dp">
 
                     <LinearLayout
@@ -179,7 +179,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
-                            android:textColor="@color/text_primary"
+                            android:textColor="@color/primary_dark"
                             android:textSize="28sp"
                             android:textStyle="bold" />
 
@@ -188,7 +188,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="K&#7871; ho&#7841;ch"
-                            android:textColor="@color/text_secondary"
+                            android:textColor="@color/primary_dark"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -199,7 +199,7 @@
                     android:layout_height="118dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="6dp"
-                    app:cardBackgroundColor="@color/surface"
+                    app:cardBackgroundColor="@color/warning_container"
                     app:cardElevation="1dp">
 
                     <LinearLayout
@@ -214,7 +214,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
-                            android:textColor="@color/text_primary"
+                            android:textColor="@color/warning"
                             android:textSize="28sp"
                             android:textStyle="bold" />
 
@@ -223,7 +223,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="B&#224;i t&#7853;p"
-                            android:textColor="@color/text_secondary"
+                            android:textColor="@color/warning"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -234,7 +234,7 @@
                     android:layout_height="118dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="6dp"
-                    app:cardBackgroundColor="@color/surface"
+                    app:cardBackgroundColor="@color/success_container"
                     app:cardElevation="1dp">
 
                     <LinearLayout
@@ -249,7 +249,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
-                            android:textColor="@color/text_primary"
+                            android:textColor="@color/success"
                             android:textSize="28sp"
                             android:textStyle="bold" />
 
@@ -258,7 +258,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="Gi&#7901; &#273;i h&#7885;c"
-                            android:textColor="@color/text_secondary"
+                            android:textColor="@color/success"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -269,7 +269,7 @@
                     android:layout_height="118dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="6dp"
-                    app:cardBackgroundColor="@color/surface"
+                    app:cardBackgroundColor="@color/danger_container"
                     app:cardElevation="1dp">
 
                     <LinearLayout
@@ -284,7 +284,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-medium"
-                            android:textColor="@color/text_primary"
+                            android:textColor="@color/danger"
                             android:textSize="28sp"
                             android:textStyle="bold" />
 
@@ -293,7 +293,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="Gi&#7901; l&#224;m th&#234;m"
-                            android:textColor="@color/text_secondary"
+                            android:textColor="@color/danger"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>

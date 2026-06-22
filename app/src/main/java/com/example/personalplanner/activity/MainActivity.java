@@ -13,8 +13,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.personalplanner.R;
 import com.example.personalplanner.data.local.DatabaseHelper;
-import com.example.personalplanner.fragment.CalendarFragment;
-import com.example.personalplanner.fragment.HomeFragment;
+import com.example.personalplanner.fragment.CalendarMockupFragment;
+import com.example.personalplanner.fragment.HomeMockupFragment;
+import com.example.personalplanner.fragment.OverviewFragment;
 import com.example.personalplanner.fragment.ProfileFragment;
 import com.example.personalplanner.utils.SessionManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         fabAddTask.setOnClickListener(v -> startActivity(new Intent(this, AddTaskActivity.class)));
 
         if (savedInstanceState == null) {
-            loadFragment(new HomeFragment());
+            loadFragment(new HomeMockupFragment());
             bottomNavigationView.setSelectedItemId(R.id.nav_home);
         } else {
             currentSelectedItemId = savedInstanceState.getInt(
@@ -83,11 +84,13 @@ public class MainActivity extends AppCompatActivity {
             int itemId = item.getItemId();
             Fragment fragment;
             if (itemId == R.id.nav_calendar) {
-                fragment = new CalendarFragment();
+                fragment = new CalendarMockupFragment();
+            } else if (itemId == R.id.nav_overview) {
+                fragment = new OverviewFragment();
             } else if (itemId == R.id.nav_profile) {
                 fragment = new ProfileFragment();
             } else {
-                fragment = new HomeFragment();
+                fragment = new HomeMockupFragment();
                 itemId = R.id.nav_home;
             }
 
@@ -102,6 +105,19 @@ public class MainActivity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.fragmentContainer, fragment)
                 .commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack();
+            return;
+        }
+        if (currentSelectedItemId != R.id.nav_home) {
+            bottomNavigationView.setSelectedItemId(R.id.nav_home);
+            return;
+        }
+        super.onBackPressed();
     }
 
     @Override

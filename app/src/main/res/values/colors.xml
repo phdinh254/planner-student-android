@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#1976D2</color>
-    <color name="primary_dark">#0D47A1</color>
-    <color name="primary_container">#E3F2FD</color>
-    <color name="teal">#2EC4B6</color>
-    <color name="teal_dark">#00796B</color>
-    <color name="teal_container">#D7FAF6</color>
+    <color name="primary">#3F6DB5</color>
+    <color name="primary_dark">#24599F</color>
+    <color name="primary_container">#DCE8FF</color>
+    <color name="teal">#2E9D8F</color>
+    <color name="teal_dark">#227A70</color>
+    <color name="teal_container">#DDF3EF</color>
     <color name="on_primary">#FFFFFF</color>
-    <color name="secondary">#607D8B</color>
-    <color name="background">#F6F8FB</color>
+    <color name="secondary">#5F6F89</color>
+    <color name="background">#F7F7F5</color>
     <color name="surface">#FFFFFF</color>
-    <color name="text_primary">#17181D</color>
-    <color name="text_secondary">#8B8F9D</color>
-    <color name="outline">#E6EAF0</color>
-    <color name="error">#B3261E</color>
-    <color name="success">#2E7D5B</color>
+    <color name="surface_variant">#F0EFEB</color>
+    <color name="text_primary">#111827</color>
+    <color name="text_secondary">#667085</color>
+    <color name="outline">#DFDDD7</color>
+    <color name="error">#B94A48</color>
+    <color name="danger">#B94A48</color>
+    <color name="danger_container">#FCEAEA</color>
+    <color name="success">#2E9D63</color>
+    <color name="success_container">#E7F6ED</color>
+    <color name="warning">#C49A22</color>
+    <color name="warning_container">#FFF4D6</color>
 </resources>

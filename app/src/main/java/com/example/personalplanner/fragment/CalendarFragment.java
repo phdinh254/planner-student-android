@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.personalplanner.R;
-import com.example.personalplanner.activity.TaskDetailActivity;
+import com.example.personalplanner.activity.PlanDetailMockupActivity;
 import com.example.personalplanner.adapter.TaskAdapter;
 import com.example.personalplanner.data.local.DatabaseHelper;
 import com.example.personalplanner.data.model.StudyPlan;
@@ -90,6 +90,12 @@ public class CalendarFragment extends Fragment {
             selectedDate = String.format(Locale.US, "%04d-%02d-%02d", year, month + 1, day);
             loadDate();
         });
+        view.findViewById(R.id.btnTodayCalendar).setOnClickListener(v -> {
+            Calendar today = Calendar.getInstance();
+            selectedDate = dateFormat.format(today.getTime());
+            calendarView.setDate(today.getTimeInMillis(), true, true);
+            loadDate();
+        });
         chipGroupCalendarMode.setOnCheckedStateChangeListener((group, checkedIds) -> {
             calendarMode = checkedIds.isEmpty() ? R.id.chipModeDay : checkedIds.get(0);
             loadDate();
@@ -158,7 +164,7 @@ public class CalendarFragment extends Fragment {
     }
 
     private void openDetail(StudyPlan plan) {
-        Intent intent = new Intent(requireContext(), TaskDetailActivity.class);
+        Intent intent = new Intent(requireContext(), PlanDetailMockupActivity.class);
         intent.putExtra("plan_id", plan.getPlanId());
         intent.putExtra("title", plan.getTitle());
         intent.putExtra("description", plan.getDescription());

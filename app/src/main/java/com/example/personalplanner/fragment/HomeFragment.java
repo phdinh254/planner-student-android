@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.personalplanner.R;
 import com.example.personalplanner.activity.PlanCategoryListActivity;
-import com.example.personalplanner.activity.TaskDetailActivity;
+import com.example.personalplanner.activity.PlanDetailMockupActivity;
 import com.example.personalplanner.data.local.DatabaseHelper;
 import com.example.personalplanner.data.model.PlanRangeStats;
 import com.example.personalplanner.data.model.StudyPlan;
@@ -311,7 +311,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void openPlanDetail(StudyPlan plan) {
-        Intent intent = new Intent(requireContext(), TaskDetailActivity.class);
+        Intent intent = new Intent(requireContext(), PlanDetailMockupActivity.class);
         intent.putExtra("plan_id", plan.getPlanId());
         intent.putExtra("title", plan.getTitle());
         intent.putExtra("description", plan.getDescription());

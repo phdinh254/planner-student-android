@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import com.example.personalplanner.data.model.PlanCategory;
 import com.example.personalplanner.data.model.StudyPlan;
 import com.example.personalplanner.notification.ReminderScheduler;
 import com.example.personalplanner.utils.SessionManager;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.text.ParseException;
@@ -49,6 +51,8 @@ public class AddTaskActivity extends AppCompatActivity {
     private Spinner spinnerRepeatRule;
     private Spinner spinnerReminderLead;
     private SwitchMaterial switchReminder;
+    private SwitchMaterial switchAllDay;
+    private TextView txtConflictWarning;
     private CheckBox chkSubmitted;
     private View layoutLocation;
     private View layoutRoom;
@@ -69,7 +73,7 @@ public class AddTaskActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_task);
+        setContentView(R.layout.activity_add_schedule_mockup);
 
         edtTitle = findViewById(R.id.edtTitle);
         edtDescription = findViewById(R.id.edtDescription);
@@ -88,7 +92,10 @@ public class AddTaskActivity extends AppCompatActivity {
         spinnerPriority = findViewById(R.id.spinnerPriority);
         spinnerRepeatRule = findViewById(R.id.spinnerRepeatRule);
         spinnerReminderLead = findViewById(R.id.spinnerReminderLead);
+        ChipGroup chipGroupPriority = findViewById(R.id.chipGroupPriority);
         switchReminder = findViewById(R.id.switchReminder);
+        switchAllDay = findViewById(R.id.switchAllDay);
+        txtConflictWarning = findViewById(R.id.txtConflictWarning);
         chkSubmitted = findViewById(R.id.chkSubmitted);
         layoutLocation = findViewById(R.id.layoutLocation);
         layoutRoom = findViewById(R.id.layoutRoom);
@@ -104,6 +111,19 @@ public class AddTaskActivity extends AppCompatActivity {
         bindSpinner(spinnerRepeatRule, R.array.repeat_rule_names);
         bindSpinner(spinnerReminderLead, R.array.reminder_lead_names);
         spinnerPriority.setSelection(1);
+        if (switchAllDay != null) {
+            spinnerPlanType.setSelection(3);
+        }
+        chipGroupPriority.setOnCheckedStateChangeListener((group, checkedIds) -> {
+            int id = checkedIds.isEmpty() ? R.id.chipPriorityMedium : checkedIds.get(0);
+            if (id == R.id.chipPriorityHigh) {
+                spinnerPriority.setSelection(StudyPlan.PRIORITY_HIGH);
+            } else if (id == R.id.chipPriorityLow) {
+                spinnerPriority.setSelection(StudyPlan.PRIORITY_LOW);
+            } else {
+                spinnerPriority.setSelection(StudyPlan.PRIORITY_MEDIUM);
+            }
+        });
         spinnerPlanType.setOnItemSelectedListener(new SimpleItemSelectedListener(this::updateTypeFields));
         updateTypeFields();
 
@@ -118,6 +138,19 @@ public class AddTaskActivity extends AppCompatActivity {
         btnChooseTime.setOnClickListener(v -> showTimePicker(calendar, true));
         btnChooseEndTime.setOnClickListener(v -> showTimePicker(endCalendar, false));
         btnSaveTask.setOnClickListener(v -> savePlan());
+        findViewById(R.id.btnSaveTop).setOnClickListener(v -> savePlan());
+        if (switchAllDay != null) {
+            switchAllDay.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    selectedTime = "00:00";
+                    selectedEndTime = "23:59";
+                    btnChooseTime.setVisibility(View.GONE);
+                } else {
+                    btnChooseTime.setVisibility(View.VISIBLE);
+                }
+                updateDateTimeLabels();
+            });
+        }
         btnManageCategories.setOnClickListener(v ->
                 startActivity(new Intent(this, PlanCategoryListActivity.class)));
         btnCancel.setOnClickListener(v -> finish());
@@ -204,6 +237,13 @@ public class AddTaskActivity extends AppCompatActivity {
         double wage = parseDouble(edtWage);
         String repeatUntil = edtRepeatUntil.getText().toString().trim();
         ArrayList<String> dates = buildRepeatDates(selectedDate, repeatUntil, repeatRule);
+        if (txtConflictWarning != null
+                && dates.size() == 1
+                && databaseHelper.hasTimeConflict(userId, selectedDate, selectedTime, selectedEndTime, -1)) {
+            txtConflictWarning.setVisibility(View.VISIBLE);
+            Toast.makeText(this, R.string.schedule_conflict_warning, Toast.LENGTH_SHORT).show();
+            return;
+        }
         setSaving(true);
         executorService.execute(() -> {
             int saved = 0;
@@ -330,9 +370,18 @@ public class AddTaskActivity extends AppCompatActivity {
     }
 
     private void updateDateTimeLabels() {
-        btnChooseDate.setText(getString(R.string.date_value, selectedDate));
-        btnChooseTime.setText(getString(R.string.time_value, selectedTime));
-        btnChooseEndTime.setText(getString(R.string.end_time_value, selectedEndTime));
+        if (switchAllDay != null) {
+            btnChooseDate.setText("B\u1eaft \u0111\u1ea7u\n" + selectedDate + " - " + selectedTime);
+            btnChooseTime.setText("Gi\u1edd b\u1eaft \u0111\u1ea7u: " + selectedTime);
+            btnChooseEndTime.setText("K\u1ebft th\u00fac\n" + selectedDate + " - " + selectedEndTime);
+            if (txtConflictWarning != null) {
+                txtConflictWarning.setVisibility(View.GONE);
+            }
+        } else {
+            btnChooseDate.setText(getString(R.string.date_value, selectedDate));
+            btnChooseTime.setText(getString(R.string.time_value, selectedTime));
+            btnChooseEndTime.setText(getString(R.string.end_time_value, selectedEndTime));
+        }
     }
 
     private void setSaving(boolean saving) {
@@ -341,6 +390,14 @@ public class AddTaskActivity extends AppCompatActivity {
     }
 
     private void updateTypeFields() {
+        if (switchAllDay != null) {
+            layoutLocation.setVisibility(View.GONE);
+            layoutRoom.setVisibility(View.GONE);
+            layoutWage.setVisibility(View.GONE);
+            layoutSubject.setVisibility(View.GONE);
+            chkSubmitted.setVisibility(View.GONE);
+            return;
+        }
         String planType = valueFromArray(R.array.plan_type_values, spinnerPlanType.getSelectedItemPosition());
         boolean isAssignment = StudyPlan.TYPE_ASSIGNMENT.equals(planType);
         boolean isClass = StudyPlan.TYPE_CLASS.equals(planType);

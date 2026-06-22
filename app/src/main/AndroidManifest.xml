@@ -4,6 +4,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
+        android:name=".PersonalPlannerApplication"
         android:allowBackup="false"
         android:fullBackupContent="false"
         android:icon="@drawable/ic_app_logo"
@@ -21,6 +22,10 @@
 
         <activity
             android:name=".activity.TaskDetailActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activity.PlanDetailMockupActivity"
             android:exported="false" />
 
         <activity

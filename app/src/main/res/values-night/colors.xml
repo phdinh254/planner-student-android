@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#82D5CC</color>
-    <color name="primary_dark">#5AB0A8</color>
-    <color name="primary_container">#164E49</color>
-    <color name="on_primary">#073733</color>
-    <color name="secondary">#E8B887</color>
-    <color name="background">#111715</color>
-    <color name="surface">#19211F</color>
-    <color name="text_primary">#E4ECE9</color>
-    <color name="text_secondary">#B7C3BF</color>
-    <color name="outline">#42504C</color>
-    <color name="error">#FFB4AB</color>
-    <color name="success">#83D7AD</color>
+    <color name="primary">#8FB6FF</color>
+    <color name="primary_dark">#B8CDFA</color>
+    <color name="primary_container">#263C64</color>
+    <color name="teal">#77D9C9</color>
+    <color name="teal_dark">#9BE4D8</color>
+    <color name="teal_container">#173C38</color>
+    <color name="on_primary">#0A1220</color>
+    <color name="secondary">#A8B0BF</color>
+    <color name="background">#111418</color>
+    <color name="surface">#1B1F27</color>
+    <color name="surface_variant">#242932</color>
+    <color name="text_primary">#F4F7FB</color>
+    <color name="text_secondary">#A8B0BF</color>
+    <color name="outline">#38404C</color>
+    <color name="error">#EF9A9A</color>
+    <color name="danger">#EF9A9A</color>
+    <color name="danger_container">#4C2325</color>
+    <color name="success">#77D9A2</color>
+    <color name="success_container">#173828</color>
+    <color name="warning">#E1C46B</color>
+    <color name="warning_container">#453816</color>
 </resources>
