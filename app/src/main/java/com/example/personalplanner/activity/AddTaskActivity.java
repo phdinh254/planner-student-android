@@ -1,8 +1,12 @@
 package com.example.personalplanner.activity;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.res.ColorStateList;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,13 +18,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.personalplanner.R;
 import com.example.personalplanner.data.local.DatabaseHelper;
 import com.example.personalplanner.data.model.PlanCategory;
+import com.example.personalplanner.data.model.RepeatRule;
 import com.example.personalplanner.data.model.StudyPlan;
 import com.example.personalplanner.notification.ReminderScheduler;
+import com.example.personalplanner.notification.ReminderType;
 import com.example.personalplanner.utils.SessionManager;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
@@ -33,6 +42,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class AddTaskActivity extends AppCompatActivity {
+    private static final int REQUEST_POST_NOTIFICATIONS = 2001;
+    private static final int REMINDER_ON_TIME_POSITION = 0;
+    private static final int REMINDER_EVERY_24_HOURS_POSITION = 6;
+
     private EditText edtTitle;
     private EditText edtDescription;
     private EditText edtDuration;
@@ -45,6 +58,7 @@ public class AddTaskActivity extends AppCompatActivity {
     private Button btnChooseTime;
     private Button btnChooseEndTime;
     private Button btnSaveTask;
+    private TextView btnSaveTop;
     private Spinner spinnerCategory;
     private Spinner spinnerPlanType;
     private Spinner spinnerPriority;
@@ -53,6 +67,7 @@ public class AddTaskActivity extends AppCompatActivity {
     private SwitchMaterial switchReminder;
     private SwitchMaterial switchAllDay;
     private TextView txtConflictWarning;
+    private ChipGroup chipGroupCategory;
     private CheckBox chkSubmitted;
     private View layoutLocation;
     private View layoutRoom;
@@ -87,6 +102,7 @@ public class AddTaskActivity extends AppCompatActivity {
         btnChooseTime = findViewById(R.id.btnChooseTime);
         btnChooseEndTime = findViewById(R.id.btnChooseEndTime);
         btnSaveTask = findViewById(R.id.btnSaveTask);
+        btnSaveTop = findViewById(R.id.btnSaveTop);
         spinnerCategory = findViewById(R.id.spinnerCategory);
         spinnerPlanType = findViewById(R.id.spinnerPlanType);
         spinnerPriority = findViewById(R.id.spinnerPriority);
@@ -96,6 +112,7 @@ public class AddTaskActivity extends AppCompatActivity {
         switchReminder = findViewById(R.id.switchReminder);
         switchAllDay = findViewById(R.id.switchAllDay);
         txtConflictWarning = findViewById(R.id.txtConflictWarning);
+        chipGroupCategory = findViewById(R.id.chipGroupCategory);
         chkSubmitted = findViewById(R.id.chkSubmitted);
         layoutLocation = findViewById(R.id.layoutLocation);
         layoutRoom = findViewById(R.id.layoutRoom);
@@ -105,12 +122,15 @@ public class AddTaskActivity extends AppCompatActivity {
         Button btnCancel = findViewById(R.id.btnCancel);
         databaseHelper = new DatabaseHelper(this);
         sessionManager = new SessionManager(this);
+        prepareDefaultCategory();
 
         bindSpinner(spinnerPriority, R.array.priority_names);
         bindSpinner(spinnerPlanType, R.array.plan_type_names);
         bindSpinner(spinnerRepeatRule, R.array.repeat_rule_names);
         bindSpinner(spinnerReminderLead, R.array.reminder_lead_names);
         spinnerPriority.setSelection(1);
+        spinnerReminderLead.setSelection(REMINDER_ON_TIME_POSITION);
+        switchReminder.setChecked(true);
         if (switchAllDay != null) {
             spinnerPlanType.setSelection(3);
         }
@@ -127,6 +147,9 @@ public class AddTaskActivity extends AppCompatActivity {
         spinnerPlanType.setOnItemSelectedListener(new SimpleItemSelectedListener(this::updateTypeFields));
         updateTypeFields();
 
+        calendar.add(Calendar.MINUTE, 5);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         selectedDate = dateFormat.format(calendar.getTime());
         selectedTime = timeFormat.format(calendar.getTime());
         endCalendar.setTime(calendar.getTime());
@@ -138,18 +161,28 @@ public class AddTaskActivity extends AppCompatActivity {
         btnChooseTime.setOnClickListener(v -> showTimePicker(calendar, true));
         btnChooseEndTime.setOnClickListener(v -> showTimePicker(endCalendar, false));
         btnSaveTask.setOnClickListener(v -> savePlan());
-        findViewById(R.id.btnSaveTop).setOnClickListener(v -> savePlan());
+        btnSaveTop.setOnClickListener(v -> savePlan());
         if (switchAllDay != null) {
             switchAllDay.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
                     selectedTime = "00:00";
                     selectedEndTime = "23:59";
                     btnChooseTime.setVisibility(View.GONE);
+                    btnChooseEndTime.setEnabled(false);
+                    spinnerReminderLead.setSelection(REMINDER_EVERY_24_HOURS_POSITION);
+                    spinnerReminderLead.setEnabled(false);
                 } else {
                     btnChooseTime.setVisibility(View.VISIBLE);
+                    btnChooseEndTime.setEnabled(true);
+                    spinnerReminderLead.setEnabled(true);
+                    if (spinnerReminderLead.getSelectedItemPosition()
+                            == REMINDER_EVERY_24_HOURS_POSITION) {
+                        spinnerReminderLead.setSelection(REMINDER_ON_TIME_POSITION);
+                    }
                 }
                 updateDateTimeLabels();
             });
+            switchAllDay.setChecked(false);
         }
         btnManageCategories.setOnClickListener(v ->
                 startActivity(new Intent(this, PlanCategoryListActivity.class)));
@@ -181,8 +214,151 @@ public class AddTaskActivity extends AppCompatActivity {
                         this, android.R.layout.simple_spinner_item, categories);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCategory.setAdapter(adapter);
+                renderCategoryChips();
             });
         });
+    }
+
+    private void prepareDefaultCategory() {
+        categories.clear();
+        categories.add(new PlanCategory(0, getString(R.string.uncategorized_course),
+                "", "", "#607D8B", sessionManager.getUserId()));
+        ArrayAdapter<PlanCategory> adapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_item, categories);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCategory.setAdapter(adapter);
+        spinnerCategory.setSelection(0);
+        renderCategoryChips();
+    }
+
+    private void renderCategoryChips() {
+        if (chipGroupCategory == null) return;
+        chipGroupCategory.removeAllViews();
+        for (int i = 0; i < categories.size(); i++) {
+            PlanCategory category = categories.get(i);
+            Chip chip = new Chip(this);
+            chip.setId(View.generateViewId());
+            chip.setTag(i);
+            chip.setText(category.getCategoryName());
+            chip.setCheckable(true);
+            chip.setCheckedIconVisible(false);
+            chip.setTextSize(12);
+            chip.setMinHeight(Math.round(getResources().getDimension(R.dimen.category_chip_height)));
+            chip.setShapeAppearanceModel(chip.getShapeAppearanceModel().toBuilder()
+                    .setAllCornerSizes(getResources().getDimension(R.dimen.category_chip_radius))
+                    .build());
+            chip.setChipBackgroundColor(ColorStateList.valueOf(
+                    getColorCompat(i == 0 ? R.color.primary_container : R.color.surface)));
+            chip.setTextColor(getColorCompat(i == 0 ? R.color.primary_dark : R.color.text_primary));
+            chip.setChipStrokeWidth(1f);
+            chip.setChipStrokeColor(ColorStateList.valueOf(getColorCompat(R.color.outline)));
+            chip.setOnClickListener(v -> {
+                Object tag = v.getTag();
+                if (tag instanceof Integer) {
+                    spinnerCategory.setSelection((Integer) tag);
+                    updateCategoryChipSelection((Integer) tag);
+                }
+            });
+            chipGroupCategory.addView(chip);
+        }
+        updateCategoryChipSelection(spinnerCategory.getSelectedItemPosition() < 0
+                ? 0 : spinnerCategory.getSelectedItemPosition());
+    }
+
+    private void updateCategoryChipSelection(int selectedIndex) {
+        if (chipGroupCategory == null) return;
+        for (int i = 0; i < chipGroupCategory.getChildCount(); i++) {
+            View child = chipGroupCategory.getChildAt(i);
+            if (!(child instanceof Chip)) continue;
+            Chip chip = (Chip) child;
+            Object tag = chip.getTag();
+            boolean selected = tag instanceof Integer && ((Integer) tag) == selectedIndex;
+            chip.setChecked(selected);
+            chip.setChipBackgroundColor(ColorStateList.valueOf(
+                    getColorCompat(selected ? R.color.primary_container : R.color.surface)));
+            chip.setTextColor(getColorCompat(selected ? R.color.primary_dark : R.color.text_primary));
+        }
+    }
+
+    private int getColorCompat(int colorRes) {
+        return androidx.core.content.ContextCompat.getColor(this, colorRes);
+    }
+
+    private boolean ensureNotificationPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            return true;
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        ActivityCompat.requestPermissions(
+                this,
+                new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                REQUEST_POST_NOTIFICATIONS
+        );
+        Toast.makeText(this,
+                "Hay cap quyen thong bao roi bam Luu lai de kich hoat nhac lich.",
+                Toast.LENGTH_LONG).show();
+        return false;
+    }
+
+    private boolean ensureExactAlarmPermission() {
+        if (ReminderScheduler.hasExactAlarmPermission(this)) {
+            return true;
+        }
+        try {
+            startActivity(ReminderScheduler.createExactAlarmPermissionIntent(this));
+        } catch (Exception ignored) {
+            Toast.makeText(this,
+                    "Vui long cap quyen bao thuc chinh xac trong cai dat ung dung.",
+                    Toast.LENGTH_LONG).show();
+            return false;
+        }
+        Toast.makeText(this,
+                "Hay cap quyen bao thuc chinh xac roi bam Luu lai.",
+                Toast.LENGTH_LONG).show();
+        return false;
+    }
+
+    private boolean validateReminderSettings(int reminderValue) {
+        if (selectedDate == null || selectedDate.trim().isEmpty()) {
+            Toast.makeText(this, "Vui long chon ngay", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        ReminderType reminderType = ReminderType.fromStoredValue(reminderValue);
+        try {
+            long selectedDateMillis = ReminderScheduler.parseSelectedDateMillis(selectedDate);
+            Integer selectedTimeMinutes = null;
+            if (!reminderType.isAllDay()) {
+                if (selectedTime == null || selectedTime.trim().isEmpty()) {
+                    Toast.makeText(this,
+                            "Vui long chon gio bao nhac",
+                            Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                selectedTimeMinutes = ReminderScheduler.parseSelectedTimeMinutes(selectedTime);
+            }
+            long finalReminderTimeMillis = ReminderScheduler.calculateReminderTimeMillis(
+                    selectedDateMillis,
+                    selectedTimeMinutes,
+                    reminderType
+            );
+            if (finalReminderTimeMillis <= System.currentTimeMillis()) {
+                Toast.makeText(this,
+                        "Thoi gian bao nhac phai lon hon thoi gian hien tai",
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+        } catch (IllegalArgumentException ignored) {
+            Toast.makeText(this,
+                    reminderType.isAllDay()
+                            ? "Vui long chon ngay"
+                            : "Vui long chon ngay va gio bao nhac",
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     private void showDatePicker() {
@@ -226,7 +402,13 @@ public class AddTaskActivity extends AppCompatActivity {
         }
 
         int userId = sessionManager.getUserId();
-        PlanCategory category = categories.get(spinnerCategory.getSelectedItemPosition());
+        int selectedCategoryPosition = spinnerCategory.getSelectedItemPosition();
+        if (selectedCategoryPosition < 0 || selectedCategoryPosition >= categories.size()) {
+            selectedCategoryPosition = 0;
+            spinnerCategory.setSelection(0);
+            updateCategoryChipSelection(0);
+        }
+        PlanCategory category = categories.get(selectedCategoryPosition);
         String description = edtDescription.getText().toString().trim();
         int priority = spinnerPriority.getSelectedItemPosition();
         String planType = valueFromArray(R.array.plan_type_values, spinnerPlanType.getSelectedItemPosition());
@@ -234,6 +416,13 @@ public class AddTaskActivity extends AppCompatActivity {
         int reminderMinutes = Integer.parseInt(valueFromArray(
                 R.array.reminder_lead_values, spinnerReminderLead.getSelectedItemPosition()));
         boolean reminderEnabled = switchReminder.isChecked();
+        if (reminderEnabled) {
+            if (!validateReminderSettings(reminderMinutes)
+                    || !ensureNotificationPermission()
+                    || !ensureExactAlarmPermission()) {
+                return;
+            }
+        }
         double wage = parseDouble(edtWage);
         String repeatUntil = edtRepeatUntil.getText().toString().trim();
         ArrayList<String> dates = buildRepeatDates(selectedDate, repeatUntil, repeatRule);
@@ -266,9 +455,17 @@ public class AddTaskActivity extends AppCompatActivity {
                     if (firstPlanId == -1) {
                         firstPlanId = planId;
                     }
+                    saveRepeatRule((int) planId, repeatRule, date);
                     if (reminderEnabled) {
-                        ReminderScheduler.schedule(this, (int) planId, title,
+                        boolean scheduled = ReminderScheduler.schedule(this, (int) planId, title,
                                 category.getCategoryName(), date, selectedTime, reminderMinutes);
+                        if (scheduled) {
+                            long reminderTime = ReminderScheduler.resolveTriggerTimeMillis(
+                                    date, selectedTime, reminderMinutes);
+                            databaseHelper.upsertReminder((int) planId, reminderTime, true);
+                        } else {
+                            databaseHelper.disableReminder((int) planId);
+                        }
                     }
                 }
             }
@@ -344,7 +541,62 @@ public class AddTaskActivity extends AppCompatActivity {
         if ("WEEKEND".equals(repeatRule)) {
             return dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY;
         }
+        if ("MONTHLY".equals(repeatRule)) {
+            try {
+                Calendar start = Calendar.getInstance();
+                start.setTime(dateFormat.parse(startDate));
+                return date.get(Calendar.DAY_OF_MONTH) == start.get(Calendar.DAY_OF_MONTH);
+            } catch (ParseException ignored) {
+                return false;
+            }
+        }
         return false;
+    }
+
+    private void saveRepeatRule(int planId, String repeatRule, String startDate) {
+        String repeatType = RepeatRule.TYPE_NONE;
+        String weekDays = "";
+        Integer monthDay = null;
+        boolean active = repeatRule != null && !"NONE".equals(repeatRule);
+        if ("DAILY".equals(repeatRule)) {
+            repeatType = RepeatRule.TYPE_DAILY;
+        } else if ("WEEKLY".equals(repeatRule)) {
+            repeatType = RepeatRule.TYPE_WEEKLY;
+            weekDays = weekDayOf(startDate);
+        } else if ("MON_WED_FRI".equals(repeatRule)) {
+            repeatType = RepeatRule.TYPE_WEEKLY;
+            weekDays = "2,4,6";
+        } else if ("TUE_THU".equals(repeatRule)) {
+            repeatType = RepeatRule.TYPE_WEEKLY;
+            weekDays = "3,5";
+        } else if ("WEEKEND".equals(repeatRule)) {
+            repeatType = RepeatRule.TYPE_WEEKLY;
+            weekDays = "7,1";
+        } else if ("MONTHLY".equals(repeatRule)) {
+            repeatType = RepeatRule.TYPE_MONTHLY;
+            monthDay = monthDayOf(startDate);
+        }
+        databaseHelper.upsertRepeatRule(planId, repeatType, weekDays, monthDay, active);
+    }
+
+    private String weekDayOf(String date) {
+        try {
+            Calendar selected = Calendar.getInstance();
+            selected.setTime(dateFormat.parse(date));
+            return String.valueOf(selected.get(Calendar.DAY_OF_WEEK));
+        } catch (ParseException ignored) {
+            return "";
+        }
+    }
+
+    private Integer monthDayOf(String date) {
+        try {
+            Calendar selected = Calendar.getInstance();
+            selected.setTime(dateFormat.parse(date));
+            return selected.get(Calendar.DAY_OF_MONTH);
+        } catch (ParseException ignored) {
+            return null;
+        }
     }
 
     private int parseInt(EditText editText, int fallback) {
@@ -387,6 +639,8 @@ public class AddTaskActivity extends AppCompatActivity {
     private void setSaving(boolean saving) {
         btnSaveTask.setEnabled(!saving);
         btnSaveTask.setText(saving ? R.string.saving : R.string.save_study_plan);
+        btnSaveTop.setEnabled(!saving);
+        btnSaveTop.setText(saving ? getString(R.string.saving) : "L\u01b0u");
     }
 
     private void updateTypeFields() {

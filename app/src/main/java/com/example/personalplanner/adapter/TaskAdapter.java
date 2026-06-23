@@ -13,12 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.personalplanner.R;
 import com.example.personalplanner.data.model.StudyPlan;
+import com.example.personalplanner.utils.PlanBusinessRules;
 import com.google.android.material.card.MaterialCardView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.PlanViewHolder> {
     public interface OnTaskActionListener {
@@ -91,7 +89,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.PlanViewHolder
         holder.txtTaskTitle.setPaintFlags(plan.getStatus() == StudyPlan.STATUS_COMPLETED
                 ? flags | Paint.STRIKE_THRU_TEXT_FLAG
                 : flags & ~Paint.STRIKE_THRU_TEXT_FLAG);
-        boolean overdue = isOverdue(plan);
+        boolean overdue = PlanBusinessRules.isOverdue(plan, System.currentTimeMillis());
         holder.txtOverdueBadge.setVisibility(overdue ? View.VISIBLE : View.GONE);
         holder.txtTaskDateTime.setTextColor(ContextCompat.getColor(
                 holder.itemView.getContext(),
@@ -105,21 +103,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.PlanViewHolder
         holder.itemView.setOnClickListener(v -> listener.onTaskClick(plan));
         holder.chkStatus.setOnCheckedChangeListener((button, checked) ->
                 listener.onStatusChanged(plan, checked));
-    }
-
-    private boolean isOverdue(StudyPlan plan) {
-        if (plan.getStatus() == StudyPlan.STATUS_COMPLETED
-                || plan.getStatus() == StudyPlan.STATUS_CANCELLED) {
-            return false;
-        }
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-            Date planDate = dateFormat.parse(plan.getDate());
-            Date today = dateFormat.parse(dateFormat.format(new Date()));
-            return planDate != null && today != null && planDate.before(today);
-        } catch (Exception ignored) {
-            return false;
-        }
     }
 
     @Override

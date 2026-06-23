@@ -62,16 +62,14 @@ public class ProfileFragment extends Fragment {
         } else if (mode == ThemeManager.MODE_DARK) {
             chipGroupTheme.check(R.id.chipThemeDark);
         } else {
-            chipGroupTheme.check(R.id.chipThemeSystem);
+            chipGroupTheme.check(R.id.chipThemeLight);
         }
         chipGroupTheme.setOnCheckedStateChangeListener((group, checkedIds) -> {
-            int checkedId = checkedIds.isEmpty() ? R.id.chipThemeSystem : checkedIds.get(0);
+            int checkedId = checkedIds.isEmpty() ? R.id.chipThemeLight : checkedIds.get(0);
             if (checkedId == R.id.chipThemeLight) {
                 ThemeManager.saveMode(requireContext(), ThemeManager.MODE_LIGHT);
-            } else if (checkedId == R.id.chipThemeDark) {
-                ThemeManager.saveMode(requireContext(), ThemeManager.MODE_DARK);
             } else {
-                ThemeManager.saveMode(requireContext(), ThemeManager.MODE_SYSTEM);
+                ThemeManager.saveMode(requireContext(), ThemeManager.MODE_DARK);
             }
         });
     }

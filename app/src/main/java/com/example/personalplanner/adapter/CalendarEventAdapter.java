@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.personalplanner.R;
 import com.example.personalplanner.data.model.StudyPlan;
+import com.example.personalplanner.utils.PlanBusinessRules;
 
 import java.util.ArrayList;
 
@@ -47,7 +48,9 @@ public class CalendarEventAdapter extends RecyclerView.Adapter<CalendarEventAdap
         holder.txtEventTitle.setText(plan.getTitle());
         holder.txtEventMeta.setText(plan.getTime() + " - " + labelForType(plan.getPlanType()));
         int colorRes = R.color.primary;
-        if (plan.getPriority() == StudyPlan.PRIORITY_HIGH) {
+        if (PlanBusinessRules.isOverdue(plan, System.currentTimeMillis())) {
+            colorRes = R.color.danger;
+        } else if (plan.getPriority() == StudyPlan.PRIORITY_HIGH) {
             colorRes = R.color.danger;
         } else if (plan.getPriority() == StudyPlan.PRIORITY_MEDIUM) {
             colorRes = R.color.warning;

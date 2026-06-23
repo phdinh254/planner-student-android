@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setupBottomNavigation();
+        setupBackNavigation();
     }
 
     private void openLoginScreen() {
@@ -107,17 +109,22 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    @Override
-    public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-            getSupportFragmentManager().popBackStack();
-            return;
-        }
-        if (currentSelectedItemId != R.id.nav_home) {
-            bottomNavigationView.setSelectedItemId(R.id.nav_home);
-            return;
-        }
-        super.onBackPressed();
+    private void setupBackNavigation() {
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                    getSupportFragmentManager().popBackStack();
+                    return;
+                }
+                if (currentSelectedItemId != R.id.nav_home) {
+                    bottomNavigationView.setSelectedItemId(R.id.nav_home);
+                    return;
+                }
+                setEnabled(false);
+                getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
     }
 
     @Override

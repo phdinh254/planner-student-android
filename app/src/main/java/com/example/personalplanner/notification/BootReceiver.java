@@ -21,11 +21,11 @@ public class BootReceiver extends BroadcastReceiver {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
             try {
-                ArrayList<StudyPlan> plans =
-                        new DatabaseHelper(context.getApplicationContext())
-                                .getPendingReminderPlans();
+                DatabaseHelper databaseHelper =
+                        new DatabaseHelper(context.getApplicationContext());
+                ArrayList<StudyPlan> plans = databaseHelper.getPendingReminderPlans();
                 for (StudyPlan plan : plans) {
-                    ReminderScheduler.schedule(
+                    boolean scheduled = ReminderScheduler.schedule(
                             context,
                             plan.getPlanId(),
                             plan.getTitle(),
@@ -34,6 +34,14 @@ public class BootReceiver extends BroadcastReceiver {
                             plan.getTime(),
                             plan.getReminderMinutes()
                     );
+                    if (scheduled) {
+                        long reminderTime = ReminderScheduler.resolveTriggerTimeMillis(
+                                plan.getDate(),
+                                plan.getTime(),
+                                plan.getReminderMinutes()
+                        );
+                        databaseHelper.upsertReminder(plan.getPlanId(), reminderTime, true);
+                    }
                 }
             } finally {
                 pendingResult.finish();

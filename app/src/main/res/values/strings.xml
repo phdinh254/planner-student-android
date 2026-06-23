@@ -88,7 +88,7 @@
     <string name="submitted_status">Da nop bai</string>
     <string name="repeat_rule">Lap lai</string>
     <string name="repeat_until">Lap lai den ngay (yyyy-MM-dd)</string>
-    <string name="reminder_lead">Nhac truoc</string>
+    <string name="reminder_lead">Kieu bao nhac</string>
     <string name="schedule_conflict_warning">Thoi gian nay dang trung voi ke hoach khac.</string>
     <string name="repeat_save_summary">Da tao %1$d/%2$d ke hoach. Bo qua %3$d ngay bi trung gio.</string>
     <string name="save_study_plan">Luu ke hoach</string>
@@ -208,6 +208,7 @@
         <item>NONE</item>
         <item>DAILY</item>
         <item>WEEKLY</item>
+        <item>MONTHLY</item>
         <item>MON_WED_FRI</item>
         <item>TUE_THU</item>
         <item>WEEKEND</item>
@@ -216,6 +217,7 @@
         <item>Khong lap lai</item>
         <item>Hang ngay</item>
         <item>Hang tuan</item>
+        <item>Hang thang</item>
         <item>Thu 2 - 4 - 6</item>
         <item>Thu 3 - 5</item>
         <item>Cuoi tuan</item>
@@ -223,14 +225,20 @@
     <string-array name="reminder_lead_values">
         <item>0</item>
         <item>5</item>
-        <item>15</item>
+        <item>10</item>
+        <item>20</item>
         <item>30</item>
+        <item>60</item>
+        <item>-1440</item>
     </string-array>
     <string-array name="reminder_lead_names">
-        <item>Dung gio</item>
-        <item>Truoc 5 phut</item>
-        <item>Truoc 15 phut</item>
-        <item>Truoc 30 phut</item>
+        <item>Nhac dung gio</item>
+        <item>Sau 5 phut</item>
+        <item>Sau 10 phut</item>
+        <item>Sau 20 phut</item>
+        <item>Sau 30 phut</item>
+        <item>Sau 1 gio</item>
+        <item>Moi 24 gio</item>
     </string-array>
     <string-array name="category_color_names">
         <item>Xanh ngoc</item>

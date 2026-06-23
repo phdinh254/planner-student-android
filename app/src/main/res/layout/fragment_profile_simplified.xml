@@ -106,13 +106,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="T&#7889;i" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipThemeSystem"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="H&#7879; th&#7889;ng" />
             </com.google.android.material.chip.ChipGroup>
         </LinearLayout>
 
@@ -126,22 +119,6 @@
             android:layout_marginTop="6dp"
             android:background="@drawable/bg_soft_field"
             android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="Ng&#244;n ng&#7919;                                  Ti&#7871;ng Vi&#7879;t"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/outline" />
 
             <TextView
                 android:id="@+id/btnManageCategories"
@@ -179,22 +156,6 @@
                 android:paddingEnd="16dp"
                 android:text="Nh&#7855;c nh&#7903; k&#7871; ho&#7841;ch"
                 android:textColor="@color/text_primary"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/outline" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="Nh&#7855;c tr&#432;&#7899;c                         15 ph&#250;t"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp"
                 android:textStyle="bold" />
         </LinearLayout>
 

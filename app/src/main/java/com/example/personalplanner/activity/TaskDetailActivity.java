@@ -1,7 +1,10 @@
 package com.example.personalplanner.activity;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,12 +16,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.personalplanner.R;
 import com.example.personalplanner.data.local.DatabaseHelper;
 import com.example.personalplanner.data.model.PlanCategory;
+import com.example.personalplanner.data.model.RepeatRule;
 import com.example.personalplanner.data.model.StudyPlan;
 import com.example.personalplanner.notification.ReminderScheduler;
+import com.example.personalplanner.notification.ReminderType;
 import com.example.personalplanner.utils.SessionManager;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
@@ -31,6 +38,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class TaskDetailActivity extends AppCompatActivity {
+    private static final int REQUEST_POST_NOTIFICATIONS = 2002;
+
     private EditText edtTitle;
     private EditText edtDescription;
     private EditText edtDuration;
@@ -250,6 +259,16 @@ public class TaskDetailActivity extends AppCompatActivity {
         int status = spinnerStatus.getSelectedItemPosition();
         int reminderMinutes = Integer.parseInt(valueFromArray(
                 R.array.reminder_lead_values, spinnerReminderLead.getSelectedItemPosition()));
+        boolean reminderActive = switchReminder.isChecked()
+                && status != DatabaseHelper.STATUS_COMPLETED
+                && status != DatabaseHelper.STATUS_CANCELLED;
+        if (reminderActive) {
+            if (!validateReminderSettings(reminderMinutes)
+                    || !ensureNotificationPermission()
+                    || !ensureExactAlarmPermission()) {
+                return;
+            }
+        }
         String planType = valueFromArray(R.array.plan_type_values, spinnerPlanType.getSelectedItemPosition());
         String repeatRule = valueFromArray(R.array.repeat_rule_values, spinnerRepeatRule.getSelectedItemPosition());
         if (databaseHelper.hasTimeConflict(sessionManager.getUserId(), selectedDate,
@@ -262,20 +281,29 @@ public class TaskDetailActivity extends AppCompatActivity {
                     planId, sessionManager.getUserId(), title,
                     edtDescription.getText().toString().trim(), selectedDate, selectedTime,
                     selectedEndTime, status, category.getCategoryId(), planType,
-                    spinnerPriority.getSelectedItemPosition(), duration, switchReminder.isChecked(),
+                    spinnerPriority.getSelectedItemPosition(), duration, reminderActive,
                     reminderMinutes, edtLocation.getText().toString(),
                     edtRoom.getText().toString(), edtSubject.getText().toString(),
                     repeatRule, edtRepeatUntil.getText().toString().trim(),
                     parseDouble(edtWage), chkSubmitted.isChecked());
+            if (updated) {
+                saveRepeatRule(planId, repeatRule, selectedDate);
+            }
             runOnUiThread(() -> {
                 if (updated) {
-                    if (switchReminder.isChecked()
-                            && status != DatabaseHelper.STATUS_COMPLETED
-                            && status != DatabaseHelper.STATUS_CANCELLED) {
-                        ReminderScheduler.schedule(this, planId, title, category.getCategoryName(),
+                    if (reminderActive) {
+                        boolean scheduled = ReminderScheduler.schedule(this, planId, title, category.getCategoryName(),
                                 selectedDate, selectedTime, reminderMinutes);
+                        if (scheduled) {
+                            long reminderTime = ReminderScheduler.resolveTriggerTimeMillis(
+                                    selectedDate, selectedTime, reminderMinutes);
+                            databaseHelper.upsertReminder(planId, reminderTime, true);
+                        } else {
+                            databaseHelper.disableReminder(planId);
+                        }
                     } else {
                         ReminderScheduler.cancel(this, planId);
+                        databaseHelper.disableReminder(planId);
                     }
                     Toast.makeText(this, R.string.task_updated, Toast.LENGTH_SHORT).show();
                     finish();
@@ -311,6 +339,52 @@ public class TaskDetailActivity extends AppCompatActivity {
         });
     }
 
+    private void saveRepeatRule(int planId, String repeatRule, String startDate) {
+        String repeatType = RepeatRule.TYPE_NONE;
+        String weekDays = "";
+        Integer monthDay = null;
+        boolean active = repeatRule != null && !"NONE".equals(repeatRule);
+        if ("DAILY".equals(repeatRule)) {
+            repeatType = RepeatRule.TYPE_DAILY;
+        } else if ("WEEKLY".equals(repeatRule)) {
+            repeatType = RepeatRule.TYPE_WEEKLY;
+            weekDays = weekDayOf(startDate);
+        } else if ("MON_WED_FRI".equals(repeatRule)) {
+            repeatType = RepeatRule.TYPE_WEEKLY;
+            weekDays = "2,4,6";
+        } else if ("TUE_THU".equals(repeatRule)) {
+            repeatType = RepeatRule.TYPE_WEEKLY;
+            weekDays = "3,5";
+        } else if ("WEEKEND".equals(repeatRule)) {
+            repeatType = RepeatRule.TYPE_WEEKLY;
+            weekDays = "7,1";
+        } else if ("MONTHLY".equals(repeatRule)) {
+            repeatType = RepeatRule.TYPE_MONTHLY;
+            monthDay = monthDayOf(startDate);
+        }
+        databaseHelper.upsertRepeatRule(planId, repeatType, weekDays, monthDay, active);
+    }
+
+    private String weekDayOf(String date) {
+        try {
+            Calendar selected = Calendar.getInstance();
+            selected.setTime(dateFormat.parse(date));
+            return String.valueOf(selected.get(Calendar.DAY_OF_WEEK));
+        } catch (ParseException ignored) {
+            return "";
+        }
+    }
+
+    private Integer monthDayOf(String date) {
+        try {
+            Calendar selected = Calendar.getInstance();
+            selected.setTime(dateFormat.parse(date));
+            return selected.get(Calendar.DAY_OF_MONTH);
+        } catch (ParseException ignored) {
+            return null;
+        }
+    }
+
     private int parseInt(EditText editText, int fallback) {
         try {
             return Integer.parseInt(editText.getText().toString().trim());
@@ -326,6 +400,83 @@ public class TaskDetailActivity extends AppCompatActivity {
         } catch (NumberFormatException ignored) {
             return 0;
         }
+    }
+
+    private boolean ensureNotificationPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            return true;
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        ActivityCompat.requestPermissions(
+                this,
+                new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                REQUEST_POST_NOTIFICATIONS
+        );
+        Toast.makeText(this,
+                "Hay cap quyen thong bao roi cap nhat lai de kich hoat nhac lich.",
+                Toast.LENGTH_LONG).show();
+        return false;
+    }
+
+    private boolean ensureExactAlarmPermission() {
+        if (ReminderScheduler.hasExactAlarmPermission(this)) {
+            return true;
+        }
+        try {
+            startActivity(ReminderScheduler.createExactAlarmPermissionIntent(this));
+        } catch (Exception ignored) {
+            Toast.makeText(this,
+                    "Vui long cap quyen bao thuc chinh xac trong cai dat ung dung.",
+                    Toast.LENGTH_LONG).show();
+            return false;
+        }
+        Toast.makeText(this,
+                "Hay cap quyen bao thuc chinh xac roi cap nhat lai.",
+                Toast.LENGTH_LONG).show();
+        return false;
+    }
+
+    private boolean validateReminderSettings(int reminderValue) {
+        if (selectedDate == null || selectedDate.trim().isEmpty()) {
+            Toast.makeText(this, "Vui long chon ngay", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        ReminderType reminderType = ReminderType.fromStoredValue(reminderValue);
+        try {
+            long selectedDateMillis = ReminderScheduler.parseSelectedDateMillis(selectedDate);
+            Integer selectedTimeMinutes = null;
+            if (!reminderType.isAllDay()) {
+                if (selectedTime == null || selectedTime.trim().isEmpty()) {
+                    Toast.makeText(this,
+                            "Vui long chon gio bao nhac",
+                            Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                selectedTimeMinutes = ReminderScheduler.parseSelectedTimeMinutes(selectedTime);
+            }
+            long finalReminderTimeMillis = ReminderScheduler.calculateReminderTimeMillis(
+                    selectedDateMillis,
+                    selectedTimeMinutes,
+                    reminderType
+            );
+            if (finalReminderTimeMillis <= System.currentTimeMillis()) {
+                Toast.makeText(this,
+                        "Thoi gian bao nhac phai lon hon thoi gian hien tai",
+                        Toast.LENGTH_LONG).show();
+                return false;
+            }
+        } catch (IllegalArgumentException ignored) {
+            Toast.makeText(this,
+                    reminderType.isAllDay()
+                            ? "Vui long chon ngay"
+                            : "Vui long chon ngay va gio bao nhac",
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     private void setSelectionByValue(Spinner spinner, int arrayRes, String value) {

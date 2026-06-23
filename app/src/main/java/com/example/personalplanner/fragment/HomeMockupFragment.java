@@ -13,7 +13,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.personalplanner.R;
-import com.example.personalplanner.activity.PlanCategoryListActivity;
 import com.example.personalplanner.activity.PlanDetailMockupActivity;
 import com.example.personalplanner.data.local.DatabaseHelper;
 import com.example.personalplanner.data.model.StudyPlan;
@@ -74,8 +73,6 @@ public class HomeMockupFragment extends Fragment {
     }
 
     private void setupActions(View view) {
-        view.findViewById(R.id.btnAvatar).setOnClickListener(v ->
-                startActivity(new Intent(requireContext(), PlanCategoryListActivity.class)));
         view.findViewById(R.id.btnViewAllPlans).setOnClickListener(v ->
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.fragmentContainer, new TaskFragment())

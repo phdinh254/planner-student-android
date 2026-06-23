@@ -43,15 +43,18 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <TextView
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSaveTop"
-                android:layout_width="44dp"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="64dp"
                 android:layout_height="44dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:text="L&#432;u"
+                android:textAllCaps="false"
                 android:textColor="@color/primary"
                 android:textSize="13sp"
                 android:textStyle="bold" />
@@ -77,13 +80,13 @@
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginTop="12dp"
-            android:text="C&#7843; ng&#224;y"
+            android:text="24H / C&#7843; ng&#224;y"
             android:textColor="@color/text_primary"
             android:textStyle="bold" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnChooseDate"
-            style="@style/Widget.PersonalPlanner.Button.Outlined"
+            style="@style/Widget.PersonalPlanner.Button.SoftField"
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:gravity="center_vertical"
@@ -93,7 +96,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnChooseTime"
-            style="@style/Widget.PersonalPlanner.Button.Outlined"
+            style="@style/Widget.PersonalPlanner.Button.SoftField"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="8dp"
@@ -104,7 +107,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnChooseEndTime"
-            style="@style/Widget.PersonalPlanner.Button.Outlined"
+            style="@style/Widget.PersonalPlanner.Button.SoftField"
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:layout_marginTop="8dp"
@@ -150,12 +153,20 @@
             style="@style/Widget.PersonalPlanner.SettingsSectionLabel"
             android:text="Thu&#7897;c k&#7871; ho&#7841;ch" />
 
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            app:selectionRequired="true"
+            app:singleLine="false"
+            app:singleSelection="true" />
+
         <Spinner
             android:id="@+id/spinnerCategory"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:background="@drawable/bg_soft_field"
-            android:paddingHorizontal="12dp" />
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:visibility="invisible" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnManageCategories"
@@ -164,7 +175,8 @@
             android:layout_height="46dp"
             android:layout_marginTop="8dp"
             android:minHeight="46dp"
-            android:text="@string/manage_courses" />
+            android:text="@string/manage_courses"
+            android:visibility="gone" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.PersonalPlanner.TextInputLayout"
@@ -207,7 +219,8 @@
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="18dp"
-            android:text="@string/save_study_plan" />
+            android:text="@string/save_study_plan"
+            android:visibility="gone" />
 
         <Spinner
             android:id="@+id/spinnerPlanType"
