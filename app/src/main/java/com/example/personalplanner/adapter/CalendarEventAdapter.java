@@ -51,10 +51,14 @@ public class CalendarEventAdapter extends RecyclerView.Adapter<CalendarEventAdap
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         StudyPlan plan = plans.get(position);
+        String displayStatus = PlanBusinessRules.getDisplayStatus(plan, System.currentTimeMillis());
         holder.txtEventTitle.setText(plan.getTitle());
-        holder.txtEventMeta.setText(plan.getTime() + " - " + labelForType(plan.getPlanType()));
+        holder.txtEventMeta.setText(plan.getTime() + " - " + labelForType(plan.getPlanType())
+                + statusSuffix(displayStatus));
         int colorRes = R.color.primary;
-        if (PlanBusinessRules.isOverdue(plan, System.currentTimeMillis())) {
+        if (PlanBusinessRules.DISPLAY_COMPLETED.equals(displayStatus)) {
+            colorRes = R.color.success;
+        } else if (PlanBusinessRules.DISPLAY_OVERDUE.equals(displayStatus)) {
             colorRes = R.color.danger;
         } else if (plan.getPriority() == StudyPlan.PRIORITY_HIGH) {
             colorRes = R.color.danger;
@@ -73,6 +77,16 @@ public class CalendarEventAdapter extends RecyclerView.Adapter<CalendarEventAdap
     @Override
     public int getItemCount() {
         return plans.size();
+    }
+
+    private String statusSuffix(String displayStatus) {
+        if (PlanBusinessRules.DISPLAY_COMPLETED.equals(displayStatus)) {
+            return " - \u0110\u00e3 ho\u00e0n th\u00e0nh";
+        }
+        if (PlanBusinessRules.DISPLAY_OVERDUE.equals(displayStatus)) {
+            return " - Qu\u00e1 h\u1ea1n";
+        }
+        return "";
     }
 
     private String labelForType(String type) {

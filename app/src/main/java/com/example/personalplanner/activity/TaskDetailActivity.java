@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.personalplanner.R;
@@ -305,6 +306,7 @@ public class TaskDetailActivity extends AppCompatActivity {
                         }
                     } else {
                         ReminderScheduler.cancel(this, planId);
+                        NotificationManagerCompat.from(this).cancel(planId);
                         databaseHelper.disableReminder(planId);
                     }
                     Toast.makeText(this, R.string.task_updated, Toast.LENGTH_SHORT).show();
@@ -419,7 +421,7 @@ public class TaskDetailActivity extends AppCompatActivity {
         );
         pendingUpdateAfterNotificationPermission = true;
         Toast.makeText(this,
-                "Hay cap quyen thong bao de tiep tuc cap nhat nhac lich.",
+                "Hãy cấp quyền thông báo để tiếp tục cập nhật nhắc lịch.",
                 Toast.LENGTH_LONG).show();
         return false;
     }
@@ -438,7 +440,7 @@ public class TaskDetailActivity extends AppCompatActivity {
         if (!granted) {
             switchReminder.setChecked(false);
             Toast.makeText(this,
-                    "Khong co quyen thong bao, ke hoach se duoc luu khong kem nhac lich.",
+                    "Không có quyền thông báo, kế hoạch sẽ được lưu không kèm nhắc lịch.",
                     Toast.LENGTH_LONG).show();
         }
         updatePlan();
@@ -452,19 +454,19 @@ public class TaskDetailActivity extends AppCompatActivity {
             startActivity(ReminderScheduler.createExactAlarmPermissionIntent(this));
         } catch (Exception ignored) {
             Toast.makeText(this,
-                    "Vui long cap quyen bao thuc chinh xac trong cai dat ung dung.",
+                    "Vui lòng cấp quyền báo thức chính xác trong cài đặt ứng dụng.",
                     Toast.LENGTH_LONG).show();
             return false;
         }
         Toast.makeText(this,
-                "Hay cap quyen bao thuc chinh xac roi cap nhat lai.",
+                "Hãy cấp quyền báo thức chính xác rồi cập nhật lại.",
                 Toast.LENGTH_LONG).show();
         return false;
     }
 
     private boolean validateReminderSettings(int reminderValue) {
         if (selectedDate == null || selectedDate.trim().isEmpty()) {
-            Toast.makeText(this, "Vui long chon ngay", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Vui lòng chọn ngày", Toast.LENGTH_SHORT).show();
             return false;
         }
         ReminderType reminderType = ReminderType.fromStoredValue(reminderValue);
@@ -474,7 +476,7 @@ public class TaskDetailActivity extends AppCompatActivity {
             if (!reminderType.isAllDay()) {
                 if (selectedTime == null || selectedTime.trim().isEmpty()) {
                     Toast.makeText(this,
-                            "Vui long chon gio bao nhac",
+                            "Vui lòng chọn giờ báo nhắc",
                             Toast.LENGTH_SHORT).show();
                     return false;
                 }
@@ -487,15 +489,15 @@ public class TaskDetailActivity extends AppCompatActivity {
             );
             if (finalReminderTimeMillis <= System.currentTimeMillis()) {
                 Toast.makeText(this,
-                        "Thoi gian bao nhac phai lon hon thoi gian hien tai",
+                        "Thời gian báo nhắc phải lớn hơn thời gian hiện tại",
                         Toast.LENGTH_LONG).show();
                 return false;
             }
         } catch (IllegalArgumentException ignored) {
             Toast.makeText(this,
                     reminderType.isAllDay()
-                            ? "Vui long chon ngay"
-                            : "Vui long chon ngay va gio bao nhac",
+                            ? "Vui lòng chọn ngày"
+                            : "Vui lòng chọn ngày và giờ báo nhắc",
                     Toast.LENGTH_SHORT).show();
             return false;
         }

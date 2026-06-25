@@ -177,6 +177,48 @@
 
         <TextView
             style="@style/Widget.PersonalPlanner.SettingsSectionLabel"
+            android:text="@string/priority" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupPriority"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipPriorityLow"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Th&#7845;p" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipPriorityMedium"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trung b&#236;nh" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipPriorityHigh"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cao" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/priority_help"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp" />
+
+        <TextView
+            style="@style/Widget.PersonalPlanner.SettingsSectionLabel"
             android:text="Nh&#7855;c nh&#7903;" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
@@ -213,32 +255,6 @@
             android:layout_width="1dp"
             android:layout_height="1dp"
             android:visibility="invisible" />
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroupPriority"
-            android:layout_width="1dp"
-            android:layout_height="1dp"
-            android:visibility="invisible"
-            app:singleSelection="true">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipPriorityLow"
-                style="@style/Widget.MaterialComponents.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipPriorityMedium"
-                style="@style/Widget.MaterialComponents.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipPriorityHigh"
-                style="@style/Widget.MaterialComponents.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.chip.ChipGroup>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layoutLocation"

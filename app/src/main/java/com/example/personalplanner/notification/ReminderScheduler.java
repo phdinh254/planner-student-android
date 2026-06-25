@@ -17,6 +17,7 @@ import java.util.Locale;
 public final class ReminderScheduler {
     public static final long MINUTE_MILLIS = 60_000L;
     public static final long DAY_MILLIS = 24L * 60L * MINUTE_MILLIS;
+    private static final int SNOOZE_REQUEST_OFFSET = 1_000_000;
 
     private static final SimpleDateFormat DATE_FORMAT =
             new SimpleDateFormat("yyyy-MM-dd", Locale.US);
@@ -71,6 +72,23 @@ public final class ReminderScheduler {
                 categoryName,
                 nextReminderTimeMillis,
                 ReminderType.EVERY_24_HOURS
+        );
+    }
+
+    public static boolean scheduleSnooze(Context context, int planId, String title,
+                                         String categoryName, int snoozeMinutes) {
+        if (snoozeMinutes <= 0) {
+            return false;
+        }
+        long triggerAt = System.currentTimeMillis() + snoozeMinutes * MINUTE_MILLIS;
+        return scheduleExactAt(
+                context,
+                planId,
+                title,
+                categoryName,
+                triggerAt,
+                ReminderType.ON_TIME,
+                planId + SNOOZE_REQUEST_OFFSET
         );
     }
 
@@ -149,7 +167,17 @@ public final class ReminderScheduler {
                     "",
                     "",
                     ReminderType.ON_TIME,
-                    0L
+                    0L,
+                    planId
+            ));
+            alarmManager.cancel(createPendingIntent(
+                    context,
+                    planId,
+                    "",
+                    "",
+                    ReminderType.ON_TIME,
+                    0L,
+                    planId + SNOOZE_REQUEST_OFFSET
             ));
         }
     }
@@ -157,6 +185,12 @@ public final class ReminderScheduler {
     private static boolean scheduleExactAt(Context context, int planId, String title,
                                            String categoryName, long triggerAt,
                                            ReminderType type) {
+        return scheduleExactAt(context, planId, title, categoryName, triggerAt, type, planId);
+    }
+
+    private static boolean scheduleExactAt(Context context, int planId, String title,
+                                           String categoryName, long triggerAt,
+                                           ReminderType type, int requestCode) {
         if (triggerAt <= System.currentTimeMillis() || !hasExactAlarmPermission(context)) {
             return false;
         }
@@ -171,7 +205,8 @@ public final class ReminderScheduler {
                 title,
                 categoryName,
                 type,
-                triggerAt
+                triggerAt,
+                requestCode
         );
         alarmManager.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
@@ -191,7 +226,7 @@ public final class ReminderScheduler {
 
     private static PendingIntent createPendingIntent(Context context, int planId, String title,
                                                      String courseName, ReminderType type,
-                                                     long triggerAt) {
+                                                     long triggerAt, int requestCode) {
         Intent intent = new Intent(context, ReminderReceiver.class);
         intent.putExtra(ReminderReceiver.EXTRA_PLAN_ID, planId);
         intent.putExtra(ReminderReceiver.EXTRA_TITLE, title);
@@ -200,7 +235,7 @@ public final class ReminderScheduler {
         intent.putExtra(ReminderReceiver.EXTRA_TRIGGER_AT, triggerAt);
         return PendingIntent.getBroadcast(
                 context,
-                planId,
+                requestCode,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );

@@ -142,6 +142,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 spinnerPriority.setSelection(StudyPlan.PRIORITY_MEDIUM);
             }
         });
+        chipGroupPriority.check(R.id.chipPriorityMedium);
         spinnerPlanType.setOnItemSelectedListener(new SimpleItemSelectedListener(this::updateTypeFields));
         updateTypeFields();
 
@@ -295,7 +296,7 @@ public class AddTaskActivity extends AppCompatActivity {
         );
         pendingSaveAfterNotificationPermission = true;
         Toast.makeText(this,
-                "Hay cap quyen thong bao de tiep tuc luu nhac lich.",
+                "Hãy cấp quyền thông báo để tiếp tục lưu nhắc lịch.",
                 Toast.LENGTH_LONG).show();
         return false;
     }
@@ -313,7 +314,7 @@ public class AddTaskActivity extends AppCompatActivity {
         if (!granted) {
             switchReminder.setChecked(false);
             Toast.makeText(this,
-                    "Khong co quyen thong bao, ke hoach se duoc luu khong kem nhac lich.",
+                    "Không có quyền thông báo, kế hoạch sẽ được lưu không kèm nhắc lịch.",
                     Toast.LENGTH_LONG).show();
         }
         savePlan();
@@ -327,19 +328,19 @@ public class AddTaskActivity extends AppCompatActivity {
             startActivity(ReminderScheduler.createExactAlarmPermissionIntent(this));
         } catch (Exception ignored) {
             Toast.makeText(this,
-                    "Vui long cap quyen bao thuc chinh xac trong cai dat ung dung.",
+                    "Vui lòng cấp quyền báo thức chính xác trong cài đặt ứng dụng.",
                     Toast.LENGTH_LONG).show();
             return false;
         }
         Toast.makeText(this,
-                "Hay cap quyen bao thuc chinh xac roi bam Luu lai.",
+                "Hãy cấp quyền báo thức chính xác rồi bấm Lưu lại.",
                 Toast.LENGTH_LONG).show();
         return false;
     }
 
     private boolean validateReminderSettings(int reminderValue) {
         if (selectedDate == null || selectedDate.trim().isEmpty()) {
-            Toast.makeText(this, "Vui long chon ngay", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Vui lòng chọn ngày", Toast.LENGTH_SHORT).show();
             return false;
         }
         ReminderType reminderType = ReminderType.fromStoredValue(reminderValue);
@@ -349,7 +350,7 @@ public class AddTaskActivity extends AppCompatActivity {
             if (!reminderType.isAllDay()) {
                 if (selectedTime == null || selectedTime.trim().isEmpty()) {
                     Toast.makeText(this,
-                            "Vui long chon gio bao nhac",
+                            "Vui lòng chọn giờ báo nhắc",
                             Toast.LENGTH_SHORT).show();
                     return false;
                 }
@@ -362,15 +363,15 @@ public class AddTaskActivity extends AppCompatActivity {
             );
             if (finalReminderTimeMillis <= System.currentTimeMillis()) {
                 Toast.makeText(this,
-                        "Thoi gian bao nhac phai lon hon thoi gian hien tai",
+                        "Thời gian báo nhắc phải lớn hơn thời gian hiện tại",
                         Toast.LENGTH_LONG).show();
                 return false;
             }
         } catch (IllegalArgumentException ignored) {
             Toast.makeText(this,
                     reminderType.isAllDay()
-                            ? "Vui long chon ngay"
-                            : "Vui long chon ngay va gio bao nhac",
+                            ? "Vui lòng chọn ngày"
+                            : "Vui lòng chọn ngày và giờ báo nhắc",
                     Toast.LENGTH_SHORT).show();
             return false;
         }

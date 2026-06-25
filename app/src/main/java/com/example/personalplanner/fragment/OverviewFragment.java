@@ -136,26 +136,26 @@ public class OverviewFragment extends Fragment {
         txtOverviewPending.setText(String.valueOf(stats.getPendingPlans()));
         txtOverviewCompleted.setText(String.valueOf(stats.getCompletedPlans()));
         txtOverviewOverdue.setText(String.valueOf(stats.getOverduePlans()));
-        txtOverviewCompletion.setText(percent + "% hoan thanh chung");
-        txtOverviewRange.setText("Tuan nay: " + weekStats.getCompletedPlans() + "/"
-                + weekStats.getTotalPlans() + " viec xong, "
-                + formatHours(weekStats.getClassMinutes()) + " gio hoc, "
-                + formatHours(weekStats.getWorkMinutes()) + " gio lam them.");
+        txtOverviewCompletion.setText(percent + "% hoàn thành chung");
+        txtOverviewRange.setText("Tuần này: " + weekStats.getCompletedPlans() + "/"
+                + weekStats.getTotalPlans() + " việc xong, "
+                + formatHours(weekStats.getClassMinutes()) + " giờ học, "
+                + formatHours(weekStats.getWorkMinutes()) + " giờ làm thêm.");
         progressOverviewCompletion.setProgressCompat(percent, true);
         chartWeeklyPlans.setData(weeklyChartData[0], weeklyChartData[1], weeklyChartData[2]);
 
-        txtPriorityHigh.setText(String.format(Locale.US, "Cao: %d ke hoach", high));
-        txtPriorityMedium.setText(String.format(Locale.US, "Trung binh: %d ke hoach", medium));
-        txtPriorityLow.setText(String.format(Locale.US, "Thap: %d ke hoach", low));
+        txtPriorityHigh.setText(String.format(Locale.US, "Cao: %d kế hoạch", high));
+        txtPriorityMedium.setText(String.format(Locale.US, "Trung bình: %d kế hoạch", medium));
+        txtPriorityLow.setText(String.format(Locale.US, "Thấp: %d kế hoạch", low));
         progressPriorityHigh.setProgressCompat(percentOf(high, total), true);
         progressPriorityMedium.setProgressCompat(percentOf(medium, total), true);
         progressPriorityLow.setProgressCompat(percentOf(low, total), true);
 
         txtDueSoon.setText(dueSoon.isEmpty()
-                ? "Chua co ke hoach sap den han."
-                : dueSoon.get(0).getTitle() + "\nHan: " + dueSoon.get(0).getDate());
+                ? "Chưa có kế hoạch sắp đến hạn."
+                : dueSoon.get(0).getTitle() + "\nHạn: " + dueSoon.get(0).getDate());
         txtTodayPlan.setText(todayPlans.isEmpty()
-                ? "Hom nay chua co lich can uu tien."
+                ? "Hôm nay chưa có lịch cần ưu tiên."
                 : todayPlans.get(0).getTitle() + "\n"
                 + todayPlans.get(0).getTime() + " - " + labelForType(todayPlans.get(0).getPlanType()));
     }
@@ -220,12 +220,12 @@ public class OverviewFragment extends Fragment {
     }
 
     private String labelForType(String type) {
-        if (StudyPlan.TYPE_ASSIGNMENT.equals(type)) return "Bai tap";
-        if (StudyPlan.TYPE_CLASS.equals(type)) return "Di hoc";
-        if (StudyPlan.TYPE_PART_TIME.equals(type)) return "Lam them";
+        if (StudyPlan.TYPE_ASSIGNMENT.equals(type)) return "Bài tập";
+        if (StudyPlan.TYPE_CLASS.equals(type)) return "Đi học";
+        if (StudyPlan.TYPE_PART_TIME.equals(type)) return "Làm thêm";
         if (StudyPlan.TYPE_EXAM.equals(type)) return "Thi";
-        if (StudyPlan.TYPE_PROJECT.equals(type)) return "Du an";
-        return "Ca nhan";
+        if (StudyPlan.TYPE_PROJECT.equals(type)) return "Dự án";
+        return "Cá nhân";
     }
 
     private DateRange getWeekRange(Calendar current) {

@@ -215,7 +215,9 @@
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:layout_marginTop="20dp"
-            android:text="&#10003; &#272;&#225;nh d&#7845;u ho&#224;n th&#224;nh" />
+            android:letterSpacing="0"
+            android:text="@string/mark_completed"
+            android:textAllCaps="false" />
 
         <LinearLayout
             android:layout_width="match_parent"

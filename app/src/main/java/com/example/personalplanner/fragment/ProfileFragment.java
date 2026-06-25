@@ -15,7 +15,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.personalplanner.R;
-import com.example.personalplanner.activity.PlanCategoryListActivity;
 import com.example.personalplanner.activity.LoginActivity;
 import com.example.personalplanner.data.local.DatabaseHelper;
 import com.example.personalplanner.data.model.User;
@@ -41,14 +40,11 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile_simplified, container, false);
         txtProfileUsername = view.findViewById(R.id.txtProfileUsername);
         txtProfileEmail = view.findViewById(R.id.txtProfileEmail);
-        View btnManageCategories = view.findViewById(R.id.btnManageCategories);
         View btnLogout = view.findViewById(R.id.btnLogout);
         sessionManager = new SessionManager(requireContext());
         databaseHelper = new DatabaseHelper(requireContext());
         executorService = Executors.newSingleThreadExecutor();
         setupThemeChips(view);
-        btnManageCategories.setOnClickListener(v ->
-                startActivity(new Intent(requireContext(), PlanCategoryListActivity.class)));
         btnLogout.setOnClickListener(v -> confirmLogout());
         loadProfile();
         return view;

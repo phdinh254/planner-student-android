@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -197,7 +198,10 @@ public class TaskFragment extends Fragment {
             mainHandler.post(() -> {
                 if (!isAdded() || getView() == null) return;
                 if (updated) {
-                    if (checked) ReminderScheduler.cancel(requireContext(), plan.getPlanId());
+                    if (checked) {
+                        ReminderScheduler.cancel(requireContext(), plan.getPlanId());
+                        NotificationManagerCompat.from(requireContext()).cancel(plan.getPlanId());
+                    }
                     loadPlans();
                 } else {
                     plan.setStatus(oldStatus);

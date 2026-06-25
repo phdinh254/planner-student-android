@@ -20,12 +20,16 @@ import com.example.personalplanner.data.local.DatabaseHelper;
 import com.example.personalplanner.data.model.StudyPlan;
 
 public class ReminderReceiver extends BroadcastReceiver {
+    public static final String ACTION_SNOOZE =
+            "com.example.personalplanner.notification.ACTION_SNOOZE";
     public static final String EXTRA_PLAN_ID = "plan_id";
     public static final String EXTRA_TITLE = "title";
     public static final String EXTRA_COURSE = "course";
     public static final String EXTRA_REMINDER_TYPE = "reminder_type";
     public static final String EXTRA_TRIGGER_AT = "trigger_at";
+    public static final String EXTRA_SNOOZE_MINUTES = "snooze_minutes";
     private static final String CHANNEL_ID = "study_reminders";
+    private static final int DEFAULT_SNOOZE_MINUTES = 5;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -38,6 +42,20 @@ public class ReminderReceiver extends BroadcastReceiver {
                 || plan.getStatus() == StudyPlan.STATUS_COMPLETED
                 || plan.getStatus() == StudyPlan.STATUS_CANCELLED) {
             ReminderScheduler.cancel(context, planId);
+            return;
+        }
+
+        if (ACTION_SNOOZE.equals(intent.getAction())) {
+            int snoozeMinutes = intent.getIntExtra(
+                    EXTRA_SNOOZE_MINUTES, DEFAULT_SNOOZE_MINUTES);
+            ReminderScheduler.scheduleSnooze(
+                    context,
+                    plan.getPlanId(),
+                    plan.getTitle(),
+                    plan.getCategoryName(),
+                    snoozeMinutes
+            );
+            NotificationManagerCompat.from(context).cancel(plan.getPlanId());
             return;
         }
 
@@ -74,6 +92,7 @@ public class ReminderReceiver extends BroadcastReceiver {
                 openAppIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
+        PendingIntent snoozeIntent = createSnoozeIntent(context, plan);
 
         String content = course == null || course.trim().isEmpty()
                 ? context.getString(R.string.reminder_content)
@@ -89,7 +108,10 @@ public class ReminderReceiver extends BroadcastReceiver {
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(true)
-                .setContentIntent(contentIntent);
+                .setContentIntent(contentIntent)
+                .addAction(R.drawable.ic_app_logo,
+                        context.getString(R.string.snooze_5_minutes),
+                        snoozeIntent);
         NotificationManagerCompat.from(context).notify(planId, builder.build());
 
         if (reminderType == ReminderType.EVERY_24_HOURS) {
@@ -105,6 +127,19 @@ public class ReminderReceiver extends BroadcastReceiver {
                 databaseHelper.upsertReminder(plan.getPlanId(), nextReminderTime, true);
             }
         }
+    }
+
+    private PendingIntent createSnoozeIntent(Context context, StudyPlan plan) {
+        Intent snoozeIntent = new Intent(context, ReminderReceiver.class);
+        snoozeIntent.setAction(ACTION_SNOOZE);
+        snoozeIntent.putExtra(EXTRA_PLAN_ID, plan.getPlanId());
+        snoozeIntent.putExtra(EXTRA_SNOOZE_MINUTES, DEFAULT_SNOOZE_MINUTES);
+        return PendingIntent.getBroadcast(
+                context,
+                plan.getPlanId() + 1_000_000,
+                snoozeIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
     }
 
     private void createChannel(Context context) {

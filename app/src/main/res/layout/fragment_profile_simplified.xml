@@ -109,56 +109,6 @@
             </com.google.android.material.chip.ChipGroup>
         </LinearLayout>
 
-        <TextView
-            style="@style/Widget.PersonalPlanner.SettingsSectionLabel"
-            android:text="Chung" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:background="@drawable/bg_soft_field"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/btnManageCategories"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="@string/manage_courses"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <TextView
-            style="@style/Widget.PersonalPlanner.SettingsSectionLabel"
-            android:text="Th&#244;ng b&#225;o" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:background="@drawable/bg_soft_field"
-            android:orientation="vertical">
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/switchNotification"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:checked="true"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:text="Nh&#7855;c nh&#7903; k&#7871; ho&#7841;ch"
-                android:textColor="@color/text_primary"
-                android:textStyle="bold" />
-        </LinearLayout>
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogout"
             style="@style/Widget.PersonalPlanner.Button.Danger"

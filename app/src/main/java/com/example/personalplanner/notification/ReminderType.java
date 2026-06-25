@@ -2,6 +2,8 @@ package com.example.personalplanner.notification;
 
 public enum ReminderType {
     ON_TIME(0, false),
+    AFTER_1_MIN(1, false),
+    AFTER_3_MIN(3, false),
     AFTER_5_MIN(5, false),
     AFTER_10_MIN(10, false),
     AFTER_20_MIN(20, false),

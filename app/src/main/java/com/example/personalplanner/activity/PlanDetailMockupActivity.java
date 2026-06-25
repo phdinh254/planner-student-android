@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.personalplanner.R;
@@ -158,10 +159,13 @@ public class PlanDetailMockupActivity extends AppCompatActivity {
         if (currentPlan == null || currentPlan.getStatus() == StudyPlan.STATUS_COMPLETED) {
             return;
         }
-        showCompletionEvaluationDialog();
+        boolean wasOverdue = PlanBusinessRules.isOverdue(currentPlan, System.currentTimeMillis());
+        if (completePlan()) {
+            showCompletionEvaluationDialog(wasOverdue);
+        }
     }
 
-    private void showCompletionEvaluationDialog() {
+    private void showCompletionEvaluationDialog(boolean wasOverdue) {
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
         int padding = Math.round(20 * getResources().getDisplayMetrics().density);
@@ -184,8 +188,7 @@ public class PlanDetailMockupActivity extends AppCompatActivity {
         EditText edtDelayReason = new EditText(this);
         edtDelayReason.setHint("L\u00fd do tr\u1ec5 h\u1ea1n n\u1ebfu c\u00f3");
         edtDelayReason.setMinLines(2);
-        edtDelayReason.setVisibility(PlanBusinessRules.isOverdue(
-                currentPlan, System.currentTimeMillis()) ? View.VISIBLE : View.GONE);
+        edtDelayReason.setVisibility(wasOverdue ? View.VISIBLE : View.GONE);
         layout.addView(edtDelayReason);
 
         AlertDialog dialog = new AlertDialog.Builder(this)
@@ -196,36 +199,46 @@ public class PlanDetailMockupActivity extends AppCompatActivity {
                 .create();
         dialog.setOnShowListener(d -> {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
-                completePlanWithEvaluation(
+                saveCompletionEvaluation(
                         satisfactionValue(spinnerSatisfaction.getSelectedItemPosition()),
                         edtResultNote.getText().toString(),
                         edtDelayReason.getText().toString());
                 dialog.dismiss();
             });
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(v -> {
-                completePlanWithEvaluation(null, "", "");
-                dialog.dismiss();
-            });
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                    .setOnClickListener(v -> dialog.dismiss());
         });
         dialog.show();
     }
 
-    private void completePlanWithEvaluation(String satisfactionLevel, String resultNote,
-                                            String delayReason) {
+    private boolean completePlan() {
         boolean updated = databaseHelper.updateStudyPlanStatus(
                 planId, sessionManager.getUserId(), StudyPlan.STATUS_COMPLETED);
         if (updated) {
             ReminderScheduler.cancel(this, planId);
-            if (satisfactionLevel != null) {
-                databaseHelper.savePlanEvaluation(planId, satisfactionLevel, resultNote,
-                        delayReason, completedAtNow());
-            }
+            NotificationManagerCompat.from(this).cancel(planId);
             Toast.makeText(this, R.string.completed_status, Toast.LENGTH_SHORT).show();
+            setResult(RESULT_OK);
             if (loadPlanFromDatabase()) {
                 bindContent();
             }
+            return true;
         } else {
             Toast.makeText(this, R.string.status_update_failed, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+
+    private void saveCompletionEvaluation(String satisfactionLevel, String resultNote,
+                                          String delayReason) {
+        long result = databaseHelper.savePlanEvaluation(planId, satisfactionLevel, resultNote,
+                delayReason, completedAtNow());
+        if (result == -1) {
+            Toast.makeText(this, R.string.status_update_failed, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (loadPlanFromDatabase()) {
+            bindContent();
         }
     }
 

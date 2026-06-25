@@ -166,7 +166,7 @@ public class WeeklyPlanChartView extends View {
         emptyPaint.setColor(ContextCompat.getColor(getContext(), R.color.text_secondary));
         emptyPaint.setTextAlign(Paint.Align.CENTER);
         emptyPaint.setTextSize(sp(13));
-        canvas.drawText("Chua co du lieu tuan nay", width / 2f, (top + bottom) / 2f, emptyPaint);
+        canvas.drawText("Chưa có dữ liệu tuần này", width / 2f, (top + bottom) / 2f, emptyPaint);
     }
 
     private int[] normalize(int[] source) {
@@ -190,12 +190,12 @@ public class WeeklyPlanChartView extends View {
     }
 
     private String buildDescription() {
-        StringBuilder builder = new StringBuilder("Thong ke tuan: ");
+        StringBuilder builder = new StringBuilder("Thống kê tuần: ");
         for (int i = 0; i < DAY_LABELS.length; i++) {
             if (i > 0) {
                 builder.append("; ");
             }
-            builder.append(String.format(Locale.US, "%s %d ke hoach, %d hoan thanh, %d qua han",
+            builder.append(String.format(Locale.US, "%s %d kế hoạch, %d hoàn thành, %d quá hạn",
                     DAY_LABELS[i], totals[i], completed[i], overdue[i]));
         }
         return builder.toString();

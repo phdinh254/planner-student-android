@@ -7,26 +7,26 @@
     <string name="logout">&#272;&#259;ng xu&#7845;t</string>
     <string name="loading">&#272;ang x&#7917; l&#253;...</string>
     <string name="saving">&#272;ang l&#432;u...</string>
-    <string name="username">Ten dang nhap</string>
+    <string name="username">T&#234;n &#273;&#259;ng nh&#7853;p</string>
     <string name="email">Email</string>
-    <string name="password">Mat khau</string>
-    <string name="confirm_password">Nhap lai mat khau</string>
-    <string name="no_account">Chua co tai khoan? Dang ky</string>
-    <string name="has_account">Da co tai khoan? Dang nhap</string>
-    <string name="create_account">Tao tai khoan sinh vien</string>
-    <string name="create_account_subtitle">Du lieu ke hoach ca nhan duoc luu cuc bo tren thiet bi.</string>
-    <string name="login_success">Dang nhap thanh cong</string>
-    <string name="register_success">Dang ky thanh cong</string>
-    <string name="register_failed">Khong the tao tai khoan. Vui long thu lai.</string>
-    <string name="error_username_required">Vui long nhap ten dang nhap</string>
-    <string name="error_username_length">Ten dang nhap can it nhat 3 ky tu</string>
-    <string name="error_password_required">Vui long nhap mat khau</string>
-    <string name="error_password_length">Mat khau can it nhat 6 ky tu</string>
-    <string name="error_password_mismatch">Mat khau nhap lai khong khop</string>
-    <string name="error_email_invalid">Email khong dung dinh dang</string>
-    <string name="error_username_exists">Ten dang nhap da ton tai</string>
-    <string name="error_email_exists">Email da duoc su dung</string>
-    <string name="error_login_invalid">Ten dang nhap hoac mat khau khong dung</string>
+    <string name="password">M&#7853;t kh&#7849;u</string>
+    <string name="confirm_password">Nh&#7853;p l&#7841;i m&#7853;t kh&#7849;u</string>
+    <string name="no_account">Ch&#432;a c&#243; t&#224;i kho&#7843;n? &#272;&#259;ng k&#253;</string>
+    <string name="has_account">&#272;&#227; c&#243; t&#224;i kho&#7843;n? &#272;&#259;ng nh&#7853;p</string>
+    <string name="create_account">T&#7841;o t&#224;i kho&#7843;n sinh vi&#234;n</string>
+    <string name="create_account_subtitle">D&#7919; li&#7879;u k&#7871; ho&#7841;ch c&#225; nh&#226;n &#273;&#432;&#7907;c l&#432;u c&#7909;c b&#7897; tr&#234;n thi&#7871;t b&#7883;.</string>
+    <string name="login_success">&#272;&#259;ng nh&#7853;p th&#224;nh c&#244;ng</string>
+    <string name="register_success">&#272;&#259;ng k&#253; th&#224;nh c&#244;ng</string>
+    <string name="register_failed">Kh&#244;ng th&#7875; t&#7841;o t&#224;i kho&#7843;n. Vui l&#242;ng th&#7917; l&#7841;i.</string>
+    <string name="error_username_required">Vui l&#242;ng nh&#7853;p t&#234;n &#273;&#259;ng nh&#7853;p</string>
+    <string name="error_username_length">T&#234;n &#273;&#259;ng nh&#7853;p c&#7847;n &#237;t nh&#7845;t 3 k&#253; t&#7921;</string>
+    <string name="error_password_required">Vui lòng nhập mật khẩu</string>
+    <string name="error_password_length">M&#7853;t kh&#7849;u c&#7847;n &#237;t nh&#7845;t 6 k&#253; t&#7921;</string>
+    <string name="error_password_mismatch">M&#7853;t kh&#7849;u nh&#7853;p l&#7841;i kh&#244;ng kh&#7899;p</string>
+    <string name="error_email_invalid">Email không đúng định dạng</string>
+    <string name="error_username_exists">T&#234;n &#273;&#259;ng nh&#7853;p &#273;&#227; t&#7891;n t&#7841;i</string>
+    <string name="error_email_exists">Email đã được sử dụng</string>
+    <string name="error_login_invalid">T&#234;n &#273;&#259;ng nh&#7853;p ho&#7863;c m&#7853;t kh&#7849;u kh&#244;ng &#273;&#250;ng</string>
 
     <string name="nav_home">Trang ch&#7911;</string>
     <string name="nav_tasks">K&#7871; ho&#7841;ch</string>
@@ -46,147 +46,150 @@
     <string name="class_count">Bu&#7893;i h&#7885;c</string>
     <string name="part_time_count">Ca l&#224;m th&#234;m</string>
     <string name="overdue_tasks">Qu&#225; h&#7841;n</string>
-    <string name="study_progress_summary">Ban da hoan thanh %1$d%% ke hoach cua minh.</string>
+    <string name="study_progress_summary">Bạn đã hoàn thành %1$d%% kế hoạch của mình.</string>
     <string name="zero">0</string>
 
-    <string name="task_list">Ke hoach sinh vien</string>
-    <string name="task_list_subtitle">Tim kiem va loc ke hoach theo nhom viec hoac trang thai.</string>
-    <string name="search_tasks">Tim theo noi dung hoac nhom ke hoach</string>
-    <string name="filter_all">Tat ca</string>
+    <string name="task_list">Kế hoạch sinh viên</string>
+    <string name="task_list_subtitle">Tìm kiếm và lọc kế hoạch theo nhóm việc hoặc trạng thái.</string>
+    <string name="search_tasks">Tìm theo nội dung hoặc nhóm kế hoạch</string>
+    <string name="filter_all">Tất cả</string>
     <string name="filter_pending">&#272;ang th&#7921;c hi&#7879;n</string>
     <string name="filter_completed">Ho&#224;n th&#224;nh</string>
-    <string name="all_courses">Tat ca nhom ke hoach</string>
-    <string name="empty_study_plans">Chua co ke hoach nao. Nhan "Them" de bat dau.</string>
-    <string name="empty_search_result">Khong tim thay ke hoach phu hop.</string>
-    <string name="status_update_failed">Khong the cap nhat trang thai</string>
+    <string name="all_courses">Tất cả nhóm kế hoạch</string>
+    <string name="empty_study_plans">Chưa có kế hoạch nào. Nhấn "Thêm" để bắt đầu.</string>
+    <string name="empty_search_result">Không tìm thấy kế hoạch phù hợp.</string>
+    <string name="status_update_failed">Không thể cập nhật trạng thái</string>
     <string name="task_date_time">%1$s - %2$s</string>
     <string name="study_meta">%1$s - %2$d phut</string>
 
-    <string name="add_study_plan">Them ke hoach sinh vien</string>
-    <string name="edit_study_plan">Chi tiet ke hoach sinh vien</string>
-    <string name="study_plan_form_subtitle">Chon nhom viec, thoi luong va thoi diem can hoan thanh.</string>
-    <string name="study_plan_title">Noi dung can lam</string>
+    <string name="add_study_plan">Thêm kế hoạch sinh viên</string>
+    <string name="edit_study_plan">Chi tiết kế hoạch sinh viên</string>
+    <string name="study_plan_form_subtitle">Chọn nhóm việc, thời lượng và thời điểm cần hoàn thành.</string>
+    <string name="study_plan_title">Nội dung cần làm</string>
     <string name="description">Ghi chu</string>
     <string name="course">Nh&#243;m k&#7871; ho&#7841;ch</string>
-    <string name="plan_type">Loai ke hoach</string>
-    <string name="status">Trang thai</string>
-    <string name="priority">Muc uu tien</string>
-    <string name="duration_minutes">Thoi luong (phut)</string>
+    <string name="plan_type">Loại kế hoạch</string>
+    <string name="status">Trạng thái</string>
+    <string name="priority">M&#7913;c &#432;u ti&#234;n</string>
+    <string name="priority_help">Cao: quan tr&#7885;ng, g&#7847;n deadline, &#7843;nh h&#432;&#7903;ng l&#7899;n. Trung b&#236;nh: c&#7847;n l&#224;m nh&#432;ng ch&#432;a qu&#225; g&#7845;p. Th&#7845;p: &#237;t kh&#7849;n c&#7845;p, c&#243; th&#7875; x&#7917; l&#253; sau.</string>
+    <string name="duration_minutes">Thời lượng (phút)</string>
     <string name="default_duration">60</string>
     <string name="enable_reminder">Nh&#7855;c t&#244;i khi &#273;&#7871;n gi&#7901; th&#7921;c hi&#7879;n</string>
-    <string name="manage_courses">Quan ly nhom ke hoach</string>
-    <string name="uncategorized_course">Chua phan nhom</string>
-    <string name="course_loading">Danh sach nhom ke hoach dang duoc tai</string>
-    <string name="error_duration">Thoi luong phai lon hon 0 phut</string>
-    <string name="date_value">Ngay: %1$s</string>
-    <string name="time_value">Gio: %1$s</string>
-    <string name="end_time_value">Ket thuc: %1$s</string>
-    <string name="location">Dia diem / noi lam</string>
-    <string name="room">Phong / ca hoc</string>
-    <string name="subject">Mon/lop hoac noi dung lien quan</string>
-    <string name="wage">Tien cong du kien</string>
-    <string name="submitted_status">Da nop bai</string>
-    <string name="repeat_rule">Lap lai</string>
-    <string name="repeat_until">Lap lai den ngay (yyyy-MM-dd)</string>
-    <string name="reminder_lead">Kieu bao nhac</string>
+    <string name="manage_courses">Qu&#7843;n l&#253; nh&#243;m k&#7871; ho&#7841;ch</string>
+    <string name="uncategorized_course">Chưa phân nhóm</string>
+    <string name="course_loading">Danh sách nhóm kế hoạch đang được tải</string>
+    <string name="error_duration">Thời lượng phải lớn hơn 0 phút</string>
+    <string name="date_value">Ngày: %1$s</string>
+    <string name="time_value">Giờ: %1$s</string>
+    <string name="end_time_value">Kết thúc: %1$s</string>
+    <string name="location">Địa điểm / nơi làm</string>
+    <string name="room">Phòng / ca học</string>
+    <string name="subject">Môn/lớp hoặc nội dung liên quan</string>
+    <string name="wage">Tiền công dự kiến</string>
+    <string name="submitted_status">Đã nộp bài</string>
+    <string name="repeat_rule">Lặp lại</string>
+    <string name="repeat_until">Lặp lại đến ngày (yyyy-MM-dd)</string>
+    <string name="reminder_lead">Ki&#7875;u nh&#7855;c l&#7883;ch</string>
     <string name="schedule_conflict_warning">Th&#7901;i gian n&#224;y &#273;ang tr&#249;ng v&#7899;i k&#7871; ho&#7841;ch kh&#225;c.</string>
-    <string name="repeat_save_summary">Da tao %1$d/%2$d ke hoach. Bo qua %3$d ngay bi trung gio.</string>
-    <string name="save_study_plan">Luu ke hoach</string>
+    <string name="repeat_save_summary">Đã tạo %1$d/%2$d kế hoạch. Bỏ qua %3$d ngày bị trùng giờ.</string>
+    <string name="save_study_plan">Lưu kế hoạch</string>
     <string name="save_schedule">L&#432;u l&#7883;ch</string>
-    <string name="update_study_plan">Cap nhat ke hoach</string>
-    <string name="delete_study_plan">Xoa ke hoach</string>
+    <string name="update_study_plan">Cập nhật kế hoạch</string>
+    <string name="delete_study_plan">Xóa kế hoạch</string>
     <string name="completed_status">&#272;&#227; ho&#224;n th&#224;nh</string>
+    <string name="mark_completed">&#272;&#225;nh d&#7845;u ho&#224;n th&#224;nh</string>
     <string name="save">L&#432;u</string>
     <string name="add_sub_task">+ Th&#234;m c&#244;ng vi&#7879;c nh&#7887;</string>
     <string name="sub_task_title_hint">Nh&#7853;p t&#234;n c&#244;ng vi&#7879;c nh&#7887;</string>
     <string name="error_sub_task_required">Vui l&#242;ng nh&#7853;p c&#244;ng vi&#7879;c nh&#7887;</string>
     <string name="sub_task_added">&#272;&#227; th&#234;m c&#244;ng vi&#7879;c nh&#7887;</string>
     <string name="sub_task_add_failed">Kh&#244;ng th&#7875; th&#234;m c&#244;ng vi&#7879;c nh&#7887;</string>
-    <string name="cancel">Huy</string>
-    <string name="back">Quay lai</string>
-    <string name="delete">Xoa</string>
-    <string name="error_task_title_required">Vui long nhap noi dung can lam</string>
-    <string name="task_added">Da them ke hoach</string>
-    <string name="task_add_failed">Khong the them ke hoach</string>
-    <string name="task_updated">Da cap nhat ke hoach</string>
-    <string name="task_update_failed">Khong the cap nhat ke hoach</string>
-    <string name="task_deleted">Da xoa ke hoach</string>
-    <string name="task_delete_failed">Khong the xoa ke hoach</string>
-    <string name="task_not_found">Khong tim thay ke hoach</string>
-    <string name="confirm_delete_title">Xoa ke hoach?</string>
-    <string name="confirm_delete_message">Hanh dong nay khong the hoan tac.</string>
+    <string name="cancel">Hủy</string>
+    <string name="back">Quay lại</string>
+    <string name="delete">Xóa</string>
+    <string name="error_task_title_required">Vui lòng nhập nội dung cần làm</string>
+    <string name="task_added">Đã thêm kế hoạch</string>
+    <string name="task_add_failed">Không thể thêm kế hoạch</string>
+    <string name="task_updated">Đã cập nhật kế hoạch</string>
+    <string name="task_update_failed">Không thể cập nhật kế hoạch</string>
+    <string name="task_deleted">Đã xóa kế hoạch</string>
+    <string name="task_delete_failed">Không thể xóa kế hoạch</string>
+    <string name="task_not_found">Không tìm thấy kế hoạch</string>
+    <string name="confirm_delete_title">Xóa kế hoạch?</string>
+    <string name="confirm_delete_message">Hành động này không thể hoàn tác.</string>
 
-    <string name="course_list_title">Nhom ke hoach cua ban</string>
-    <string name="course_list_subtitle">Tao cac nhom nhu Hoc tap, Bai tap, Di hoc, Lam them de phan loai ke hoach.</string>
-    <string name="add_course">Them nhom ke hoach</string>
-    <string name="empty_courses">Chua co nhom ke hoach. Hay tao nhom dau tien.</string>
-    <string name="course_form_title">Thong tin nhom ke hoach</string>
-    <string name="course_form_subtitle">Ma nhom va ghi chu co the de trong.</string>
-    <string name="course_name">Ten nhom ke hoach</string>
-    <string name="course_code">Ma nhom</string>
+    <string name="course_list_title">Nhóm kế hoạch của bạn</string>
+    <string name="course_list_subtitle">Tạo các nhóm như Học tập, Bài tập, Đi học, Làm thêm để phân loại kế hoạch.</string>
+    <string name="add_course">Thêm nhóm kế hoạch</string>
+    <string name="empty_courses">Chưa có nhóm kế hoạch. Hãy tạo nhóm đầu tiên.</string>
+    <string name="course_form_title">Thông tin nhóm kế hoạch</string>
+    <string name="course_form_subtitle">Mã nhóm và ghi chú có thể để trống.</string>
+    <string name="course_name">Tên nhóm kế hoạch</string>
+    <string name="course_code">Mã nhóm</string>
     <string name="lecturer">Ghi chu</string>
-    <string name="course_color">Mau nhan dien</string>
-    <string name="save_course">Luu nhom</string>
-    <string name="delete_course">Xoa nhom</string>
-    <string name="confirm_delete_course">Ke hoach thuoc nhom nay se chuyen ve "Chua phan nhom".</string>
-    <string name="error_course_name_required">Vui long nhap ten nhom ke hoach</string>
-    <string name="course_saved">Da luu nhom ke hoach</string>
-    <string name="course_save_failed">Khong the luu nhom ke hoach</string>
-    <string name="course_deleted">Da xoa nhom ke hoach</string>
-    <string name="course_delete_failed">Khong the xoa nhom ke hoach</string>
-    <string name="no_course_code">Chua co ma nhom</string>
-    <string name="no_lecturer">Chua co ghi chu</string>
-    <string name="category_name">Ten nhom ke hoach</string>
-    <string name="category_list_title">Nhom ke hoach cua ban</string>
-    <string name="category_list_subtitle">Tao cac nhom nhu Hoc tap, Bai tap, Di hoc, Lam them de phan loai ke hoach.</string>
-    <string name="category_form_title">Thong tin nhom ke hoach</string>
-    <string name="category_form_subtitle">Ma nhom va ghi chu co the de trong.</string>
-    <string name="category_code">Ma nhom</string>
-    <string name="category_note">Ghi chu</string>
-    <string name="category_loading">Danh sach nhom ke hoach dang duoc tai</string>
-    <string name="category_color">Mau nhan dien</string>
-    <string name="save_category">Luu nhom</string>
-    <string name="delete_category">Xoa nhom</string>
-    <string name="confirm_delete_category">Ke hoach thuoc nhom nay se chuyen ve "Chua phan nhom".</string>
-    <string name="error_category_name_required">Vui long nhap ten nhom ke hoach</string>
-    <string name="category_saved">Da luu nhom ke hoach</string>
-    <string name="category_save_failed">Khong the luu nhom ke hoach</string>
-    <string name="category_deleted">Da xoa nhom ke hoach</string>
-    <string name="category_delete_failed">Khong the xoa nhom ke hoach</string>
-    <string name="no_category_code">Chua co ma nhom</string>
-    <string name="no_category_note">Chua co ghi chu</string>
-    <string name="status_overdue">Qua han</string>
-    <string name="type_assignment">Bai tap</string>
-    <string name="type_class">Di hoc</string>
-    <string name="type_part_time">Lam them</string>
-    <string name="type_personal">Ca nhan</string>
+    <string name="course_color">Màu nhận diện</string>
+    <string name="save_course">Lưu nhóm</string>
+    <string name="delete_course">Xóa nhóm</string>
+    <string name="confirm_delete_course">Kế hoạch thuộc nhóm này sẽ chuyển về "Chưa phân nhóm".</string>
+    <string name="error_course_name_required">Vui lòng nhập tên nhóm kế hoạch</string>
+    <string name="course_saved">Đã lưu nhóm kế hoạch</string>
+    <string name="course_save_failed">Không thể lưu nhóm kế hoạch</string>
+    <string name="course_deleted">Đã xóa nhóm kế hoạch</string>
+    <string name="course_delete_failed">Không thể xóa nhóm kế hoạch</string>
+    <string name="no_course_code">Chưa có mã nhóm</string>
+    <string name="no_lecturer">Chưa có ghi chú</string>
+    <string name="category_name">Tên nhóm kế hoạch</string>
+    <string name="category_list_title">Nhóm kế hoạch của bạn</string>
+    <string name="category_list_subtitle">Tạo các nhóm như Học tập, Bài tập, Đi học, Làm thêm để phân loại kế hoạch.</string>
+    <string name="category_form_title">Thông tin nhóm kế hoạch</string>
+    <string name="category_form_subtitle">Mã nhóm và ghi chú có thể để trống.</string>
+    <string name="category_code">Mã nhóm</string>
+    <string name="category_note">Ghi chú</string>
+    <string name="category_loading">Danh sách nhóm kế hoạch đang được tải</string>
+    <string name="category_color">Màu nhận diện</string>
+    <string name="save_category">Lưu nhóm</string>
+    <string name="delete_category">Xóa nhóm</string>
+    <string name="confirm_delete_category">Kế hoạch thuộc nhóm này sẽ chuyển về "Chưa phân nhóm".</string>
+    <string name="error_category_name_required">Vui lòng nhập tên nhóm kế hoạch</string>
+    <string name="category_saved">Đã lưu nhóm kế hoạch</string>
+    <string name="category_save_failed">Không thể lưu nhóm kế hoạch</string>
+    <string name="category_deleted">Đã xóa nhóm kế hoạch</string>
+    <string name="category_delete_failed">Không thể xóa nhóm kế hoạch</string>
+    <string name="no_category_code">Chưa có mã nhóm</string>
+    <string name="no_category_note">Chưa có ghi chú</string>
+    <string name="status_overdue">Quá hạn</string>
+    <string name="type_assignment">Bài tập</string>
+    <string name="type_class">Đi học</string>
+    <string name="type_part_time">Làm thêm</string>
+    <string name="type_personal">Cá nhân</string>
     <string name="type_exam">Thi</string>
-    <string name="type_project">Du an</string>
+    <string name="type_project">Dự án</string>
 
-    <string name="calendar_title">Lich ke hoach</string>
-    <string name="calendar_subtitle">Chon ngay de xem viec hoc, bai tap, ca lam them va cac ke hoach khac.</string>
-    <string name="tasks_on_date">Ke hoach ngay %1$s</string>
-    <string name="upcoming_plans">Ke hoach sap toi</string>
-    <string name="calendar_mode_day">Ngay</string>
-    <string name="calendar_mode_week">Tuan</string>
-    <string name="calendar_mode_month">Thang</string>
-    <string name="plans_in_range">Ke hoach tu %1$s den %2$s</string>
-    <string name="empty_calendar">Ngay nay chua co ke hoach nao.</string>
-    <string name="profile_title">Ho so sinh vien</string>
-    <string name="profile_subtitle">Quan ly tai khoan va du lieu ke hoach tren thiet bi.</string>
-    <string name="profile_username_label">Ten dang nhap</string>
+    <string name="calendar_title">Lịch kế hoạch</string>
+    <string name="calendar_subtitle">Chọn ngày để xem việc học, bài tập, ca làm thêm và các kế hoạch khác.</string>
+    <string name="tasks_on_date">Kế hoạch ngày %1$s</string>
+    <string name="upcoming_plans">Kế hoạch sắp tới</string>
+    <string name="calendar_mode_day">Ngày</string>
+    <string name="calendar_mode_week">Tuần</string>
+    <string name="calendar_mode_month">Tháng</string>
+    <string name="plans_in_range">Kế hoạch từ %1$s đến %2$s</string>
+    <string name="empty_calendar">Ngày này chưa có kế hoạch nào.</string>
+    <string name="profile_title">Hồ sơ sinh viên</string>
+    <string name="profile_subtitle">Quản lý tài khoản và dữ liệu kế hoạch trên thiết bị.</string>
+    <string name="profile_username_label">T&#234;n &#273;&#259;ng nh&#7853;p</string>
     <string name="profile_email_label">Email</string>
-    <string name="profile_email_unavailable">Chua co thong tin email</string>
-    <string name="confirm_logout_message">Ban co chac muon ket thuc phien dang nhap?</string>
+    <string name="profile_email_unavailable">Chưa có thông tin email</string>
+    <string name="confirm_logout_message">Bạn có chắc muốn kết thúc phiên đăng nhập?</string>
 
-    <string name="reminder_channel_name">Nhac lich ke hoach</string>
-    <string name="reminder_channel_description">Thong bao khi den thoi gian thuc hien ke hoach cua sinh vien</string>
-    <string name="reminder_content">Da den thoi gian thuc hien ke hoach.</string>
-    <string name="reminder_content_course">Da den thoi gian thuc hien ke hoach thuoc nhom %1$s.</string>
+    <string name="reminder_channel_name">Nhắc lịch kế hoạch</string>
+    <string name="reminder_channel_description">Thông báo khi đến thời gian thực hiện kế hoạch của sinh viên</string>
+    <string name="reminder_content">Đã đến thời gian thực hiện kế hoạch.</string>
+    <string name="reminder_content_course">Đã đến thời gian thực hiện kế hoạch thuộc nhóm %1$s.</string>
+    <string name="snooze_5_minutes">Nh&#7855;c l&#7841;i 5 ph&#250;t</string>
 
     <string-array name="priority_names">
-        <item>Thap</item>
-        <item>Trung binh</item>
+        <item>Th&#7845;p</item>
+        <item>Trung b&#236;nh</item>
         <item>Cao</item>
     </string-array>
     <string-array name="plan_type_values">
@@ -198,18 +201,18 @@
         <item>PROJECT</item>
     </string-array>
     <string-array name="plan_type_names">
-        <item>Bai tap</item>
-        <item>Di hoc</item>
-        <item>Lam them</item>
-        <item>Ca nhan</item>
-        <item>Thi / kiem tra</item>
-        <item>Do an / du an</item>
+        <item>Bài tập</item>
+        <item>Đi học</item>
+        <item>Làm thêm</item>
+        <item>Cá nhân</item>
+        <item>Thi / kiểm tra</item>
+        <item>Đồ án / dự án</item>
     </string-array>
     <string-array name="status_names">
-        <item>Sap toi</item>
-        <item>Dang thuc hien</item>
-        <item>Hoan thanh</item>
-        <item>Da huy</item>
+        <item>Sắp tới</item>
+        <item>Đang thực hiện</item>
+        <item>Hoàn thành</item>
+        <item>Đã hủy</item>
     </string-array>
     <string-array name="repeat_rule_values">
         <item>NONE</item>
@@ -221,38 +224,38 @@
         <item>WEEKEND</item>
     </string-array>
     <string-array name="repeat_rule_names">
-        <item>Khong lap lai</item>
-        <item>Hang ngay</item>
-        <item>Hang tuan</item>
-        <item>Hang thang</item>
-        <item>Thu 2 - 4 - 6</item>
-        <item>Thu 3 - 5</item>
-        <item>Cuoi tuan</item>
+        <item>Kh&#244;ng l&#7863;p l&#7841;i</item>
+        <item>H&#7857;ng ng&#224;y</item>
+        <item>H&#7857;ng tu&#7847;n</item>
+        <item>H&#7857;ng th&#225;ng</item>
+        <item>Th&#7913; 2 - 4 - 6</item>
+        <item>Th&#7913; 3 - 5</item>
+        <item>Cu&#7889;i tu&#7847;n</item>
     </string-array>
     <string-array name="reminder_lead_values">
         <item>0</item>
+        <item>1</item>
+        <item>3</item>
         <item>5</item>
         <item>10</item>
-        <item>20</item>
         <item>30</item>
-        <item>60</item>
         <item>-1440</item>
     </string-array>
     <string-array name="reminder_lead_names">
-        <item>Nhac dung gio</item>
-        <item>Sau 5 phut</item>
-        <item>Sau 10 phut</item>
-        <item>Sau 20 phut</item>
-        <item>Sau 30 phut</item>
-        <item>Sau 1 gio</item>
-        <item>Moi 24 gio</item>
+        <item>Nh&#7855;c &#273;&#250;ng gi&#7901;</item>
+        <item>Sau 1 ph&#250;t</item>
+        <item>Sau 3 ph&#250;t</item>
+        <item>Sau 5 ph&#250;t</item>
+        <item>Sau 10 ph&#250;t</item>
+        <item>Sau 30 ph&#250;t</item>
+        <item>M&#7895;i 24 gi&#7901;</item>
     </string-array>
     <string-array name="category_color_names">
-        <item>Xanh ngoc</item>
-        <item>Xanh duong</item>
-        <item>Tim</item>
-        <item>Cam dat</item>
-        <item>Xanh la</item>
-        <item>Do tram</item>
+        <item>Xanh ngọc</item>
+        <item>Xanh dương</item>
+        <item>Tím</item>
+        <item>Cam đất</item>
+        <item>Xanh lá</item>
+        <item>Đỏ trầm</item>
     </string-array>
 </resources>

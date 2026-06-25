@@ -89,8 +89,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.PlanViewHolder
         holder.txtTaskTitle.setPaintFlags(plan.getStatus() == StudyPlan.STATUS_COMPLETED
                 ? flags | Paint.STRIKE_THRU_TEXT_FLAG
                 : flags & ~Paint.STRIKE_THRU_TEXT_FLAG);
-        boolean overdue = PlanBusinessRules.isOverdue(plan, System.currentTimeMillis());
-        holder.txtOverdueBadge.setVisibility(overdue ? View.VISIBLE : View.GONE);
+        long now = System.currentTimeMillis();
+        boolean overdue = PlanBusinessRules.isOverdue(plan, now);
+        bindStatusBadge(holder, PlanBusinessRules.getDisplayStatus(plan, now));
         holder.txtTaskDateTime.setTextColor(ContextCompat.getColor(
                 holder.itemView.getContext(),
                 overdue ? R.color.error : R.color.primary
@@ -103,6 +104,24 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.PlanViewHolder
         holder.itemView.setOnClickListener(v -> listener.onTaskClick(plan));
         holder.chkStatus.setOnCheckedChangeListener((button, checked) ->
                 listener.onStatusChanged(plan, checked));
+    }
+
+    private void bindStatusBadge(PlanViewHolder holder, String displayStatus) {
+        if (PlanBusinessRules.DISPLAY_COMPLETED.equals(displayStatus)) {
+            holder.txtOverdueBadge.setText(R.string.completed_status);
+            holder.txtOverdueBadge.setBackgroundResource(R.drawable.bg_stat_success);
+            holder.txtOverdueBadge.setTextColor(ContextCompat.getColor(
+                    holder.itemView.getContext(), R.color.success));
+            holder.txtOverdueBadge.setVisibility(View.VISIBLE);
+        } else if (PlanBusinessRules.DISPLAY_OVERDUE.equals(displayStatus)) {
+            holder.txtOverdueBadge.setText(R.string.status_overdue);
+            holder.txtOverdueBadge.setBackgroundResource(R.drawable.bg_danger_pill);
+            holder.txtOverdueBadge.setTextColor(ContextCompat.getColor(
+                    holder.itemView.getContext(), R.color.danger));
+            holder.txtOverdueBadge.setVisibility(View.VISIBLE);
+        } else {
+            holder.txtOverdueBadge.setVisibility(View.GONE);
+        }
     }
 
     @Override
